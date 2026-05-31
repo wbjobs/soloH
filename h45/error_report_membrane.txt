@@ -1,0 +1,54 @@
+============================================================
+ERROR ANALYSIS REPORT
+============================================================
+Total samples: 15
+Correct samples: 0
+Accuracy: 0.00%
+Error rate: 100.00%
+
+Top-K Accuracy:
+  Top-1: 0.00%
+  Top-3: 20.00%
+  Top-5: 33.33%
+  Top-10: 33.33%
+
+Confidence Metrics:
+  Average confidence: 30.67%
+  Average confidence (correct): 0.00%
+  Average confidence (errors): 30.67%
+
+Text-level Errors:
+  Levenshtein distance: 29
+  Insertions: 15
+  Deletions: 0
+  Substitutions: 0
+
+Per-class Accuracy:
+  h         :   0.00%  Errors: `
+  e         :   0.00%  Errors: `
+  l         :   0.00%  Errors: `, `, `
+  o         :   0.00%  Errors: `, `
+  Space     :   0.00%  Errors: `, `
+  w         :   0.00%  Errors: `
+  r         :   0.00%  Errors: `
+  d         :   0.00%  Errors: `
+  1         :   0.00%  Errors: `
+  2         :   0.00%  Errors: `
+  3         :   0.00%  Errors: `
+
+Detailed Predictions:
+     0: ✗ True=h          Pred=`          Conf= 30.7%
+     1: ✗ True=e          Pred=`          Conf= 30.7%
+     2: ✗ True=l          Pred=`          Conf= 30.7%
+     3: ✗ True=l          Pred=`          Conf= 30.7%
+     4: ✗ True=o          Pred=`          Conf= 30.7%
+     5: ✗ True=Space      Pred=`          Conf= 30.7%
+     6: ✗ True=w          Pred=`          Conf= 30.7%
+     7: ✗ True=o          Pred=`          Conf= 30.7%
+     8: ✗ True=r          Pred=`          Conf= 30.7%
+     9: ✗ True=l          Pred=`          Conf= 30.7%
+    10: ✗ True=d          Pred=`          Conf= 30.7%
+    11: ✗ True=Space      Pred=`          Conf= 30.7%
+    12: ✗ True=1          Pred=`          Conf= 30.7%
+    13: ✗ True=2          Pred=`          Conf= 30.7%
+    14: ✗ True=3          Pred=`          Conf= 30.7%

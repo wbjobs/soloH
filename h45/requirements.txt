@@ -1,0 +1,7 @@
+numpy>=1.21.0
+scipy>=1.7.0
+soundfile>=0.12.1
+wave>=0.0.2
+pickleshare>=0.7.5
+typing>=3.7.4.3
+dataclasses>=0.8; python_version < '3.7'
