@@ -1,0 +1,69 @@
+{
+  "num_files": 3,
+  "avg_snr_improvement": 7.105427357601002e-15,
+  "results": [
+    {
+      "data_name": "test_0",
+      "snr_before": 52.2054477912971,
+      "snr_after": 52.205447791297104,
+      "noise_coefficients": {
+        "before": {
+          "quantization_noise": 0.40824829046387495,
+          "angle_random_walk": 0.40824829046385624,
+          "bias_instability": 1.1061838935529622,
+          "rate_random_walk": 0.5773502691896257,
+          "rate_ramp": 0.49999999999999994
+        },
+        "after": {
+          "quantization_noise": 0.40824829046387495,
+          "angle_random_walk": 0.40824829046385624,
+          "bias_instability": 1.1061838935529622,
+          "rate_random_walk": 0.5773502691896256,
+          "rate_ramp": 0.49999999999999994
+        }
+      }
+    },
+    {
+      "data_name": "test_1",
+      "snr_before": 52.2054477912971,
+      "snr_after": 52.205447791297104,
+      "noise_coefficients": {
+        "before": {
+          "quantization_noise": 0.40824829046387495,
+          "angle_random_walk": 0.40824829046385624,
+          "bias_instability": 1.1061838935529622,
+          "rate_random_walk": 0.5773502691896257,
+          "rate_ramp": 0.49999999999999994
+        },
+        "after": {
+          "quantization_noise": 0.40824829046387495,
+          "angle_random_walk": 0.40824829046385624,
+          "bias_instability": 1.1061838935529622,
+          "rate_random_walk": 0.5773502691896256,
+          "rate_ramp": 0.49999999999999994
+        }
+      }
+    },
+    {
+      "data_name": "test_2",
+      "snr_before": 52.2054477912971,
+      "snr_after": 52.205447791297104,
+      "noise_coefficients": {
+        "before": {
+          "quantization_noise": 0.40824829046387495,
+          "angle_random_walk": 0.40824829046385624,
+          "bias_instability": 1.1061838935529622,
+          "rate_random_walk": 0.5773502691896257,
+          "rate_ramp": 0.49999999999999994
+        },
+        "after": {
+          "quantization_noise": 0.40824829046387495,
+          "angle_random_walk": 0.40824829046385624,
+          "bias_instability": 1.1061838935529622,
+          "rate_random_walk": 0.5773502691896256,
+          "rate_ramp": 0.49999999999999994
+        }
+      }
+    }
+  ]
+}
