@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: ancient-text-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ancient-text-backend
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/app
+      - ./storage:/storage
+    environment:
+      - FLASK_ENV=development
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - UPLOAD_FOLDER=/storage/uploads
+      - PROCESSED_FOLDER=/storage/processed
+      - EXPORT_FOLDER=/storage/exports
+    depends_on:
+      - redis
+    restart: unless-stopped
+
+  celery-worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ancient-text-celery
+    command: celery -A celery_worker.celery worker --loglevel=info --pool=solo
+    volumes:
+      - ./backend:/app
+      - ./storage:/storage
+    environment:
+      - FLASK_ENV=development
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - UPLOAD_FOLDER=/storage/uploads
+      - PROCESSED_FOLDER=/storage/processed
+      - EXPORT_FOLDER=/storage/exports
+    depends_on:
+      - redis
+      - backend
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: ancient-text-frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - VITE_API_BASE_URL=http://localhost:5000/api
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  redis_data:

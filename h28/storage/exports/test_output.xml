@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xml:id="task-test-tei-001" xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://www.tei-c.org/release/xml/tei/custom/schema/tei_all.xsd">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>OCR 识别结果 - test_ancient.png</title>
+        <author>古籍文字识别系统</author>
+        <respStmt>
+          <resp>OCR识别</resp>
+          <name>古籍文字识别系统</name>
+        </respStmt>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>古籍文字识别系统</publisher>
+        <date when="2026-05-24">2026-05-24</date>
+        <availability>
+          <p>本识别结果仅供研究使用</p>
+        </availability>
+      </publicationStmt>
+      <sourceDesc>
+        <bibl>
+          <title>test_ancient.png</title>
+          <idno type="task">test-tei-001</idno>
+        </bibl>
+        <msDesc>
+          <msIdentifier>
+            <repository>待入藏</repository>
+            <idno>test-tei-001</idno>
+          </msIdentifier>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <langUsage>
+        <language xml:id="zh-CN" ident="zh-CN">中文</language>
+      </langUsage>
+    </profileDesc>
+  </teiHeader>
+  <text xml:lang="zh-CN">
+    <body>
+      <pb n="1" xml:id="pb-1" facs="/storage/uploads/test.png"/>
+      <div type="textpart" subtype="column" n="1.1" xml:id="col-1-1">
+        <lb n="1" xml:id="lb-l-1-1-1"/>
+        <seg xml:id="seg-l-1-1-1" type="line">
+          <w xml:id="w-l-1-1-1-1" facs="#zone-l-1-1-1-1" cert="high">人</w>
+          <certainty target="#w-l-1-1-1-1" degree="0.9500" locus="value"/>
+          <w xml:id="w-l-1-1-1-2" facs="#zone-l-1-1-1-2" cert="high">人</w>
+          <certainty target="#w-l-1-1-1-2" degree="0.9000" locus="value"/>
+          <w xml:id="w-l-1-1-1-3" facs="#zone-l-1-1-1-3" cert="high">為</w>
+          <certainty target="#w-l-1-1-1-3" degree="0.9300" locus="value"/>
+          <w xml:id="w-l-1-1-1-4" facs="#zone-l-1-1-1-4" cert="medium">本</w>
+          <certainty target="#w-l-1-1-1-4" degree="0.8800" locus="value"/>
+        </seg>
+        <lb n="2" xml:id="lb-l-1-1-2"/>
+        <seg xml:id="seg-l-1-1-2" type="line">
+          <w xml:id="w-l-1-1-2-1" facs="#zone-l-1-1-2-1" cert="medium">天</w>
+          <certainty target="#w-l-1-1-2-1" degree="0.8800" locus="value"/>
+          <w xml:id="w-l-1-1-2-2" facs="#zone-l-1-1-2-2" cert="medium">地</w>
+          <certainty target="#w-l-1-1-2-2" degree="0.8500" locus="value"/>
+          <w xml:id="w-l-1-1-2-3" facs="#zone-l-1-1-2-3" cert="high">玄</w>
+          <certainty target="#w-l-1-1-2-3" degree="0.9000" locus="value"/>
+          <w xml:id="w-l-1-1-2-4" facs="#zone-l-1-1-2-4" cert="medium">黃</w>
+          <certainty target="#w-l-1-1-2-4" degree="0.8900" locus="value"/>
+        </seg>
+      </div>
+    </body>
+  </text>
+  <facsimile>
+    <surfaceGrp>
+      <surface xml:id="surface-1" n="1" facs="/storage/uploads/test.png">
+        <graphic width="800" height="600"/>
+        <zone xml:id="zone-l-1-1-1-1" points="100.0,50.0 200.0,50.0 200.0,100.0 100.0,100.0">人</zone>
+        <zone xml:id="zone-l-1-1-1-2" points="100.0,120.0 200.0,120.0 200.0,170.0 100.0,170.0">人</zone>
+        <zone xml:id="zone-l-1-1-1-3" points="100.0,190.0 200.0,190.0 200.0,240.0 100.0,240.0">為</zone>
+        <zone xml:id="zone-l-1-1-1-4" points="100.0,260.0 200.0,260.0 200.0,310.0 100.0,310.0">本</zone>
+        <zone xml:id="zone-l-1-1-2-1" points="100.0,330.0 200.0,330.0 200.0,380.0 100.0,380.0">天</zone>
+        <zone xml:id="zone-l-1-1-2-2" points="100.0,400.0 200.0,400.0 200.0,450.0 100.0,450.0">地</zone>
+        <zone xml:id="zone-l-1-1-2-3" points="100.0,470.0 200.0,470.0 200.0,520.0 100.0,520.0">玄</zone>
+        <zone xml:id="zone-l-1-1-2-4" points="100.0,540.0 200.0,540.0 200.0,590.0 100.0,590.0">黃</zone>
+      </surface>
+    </surfaceGrp>
+  </facsimile>
+</TEI>

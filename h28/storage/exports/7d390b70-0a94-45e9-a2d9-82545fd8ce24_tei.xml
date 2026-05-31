@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="task-7d390b70-0a94-45e9-a2d9-82545fd8ce24">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>OCR 识别结果 - export_test.png</title>
+        <author>古籍文字识别系统</author>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>古籍文字识别系统</publisher>
+        <date>2026-05-24</date>
+      </publicationStmt>
+      <sourceDesc>
+        <bibl>
+          <title>export_test.png</title>
+          <idno type="task">7d390b70-0a94-45e9-a2d9-82545fd8ce24</idno>
+        </bibl>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <langUsage>
+        <language ident="zh-CN">Chinese</language>
+      </langUsage>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <pb n="1" facs="/storage/uploads/test.png"/>
+      <div type="column" n="1">
+        <lb n="0"/>
+        <seg type="line">
+          天地玄黃，宇宙洪荒。
+          <w confidence="0.9500"/>
+        </seg>
+        <lb n="0"/>
+        <seg type="line">
+          日月盈昃，辰宿列張。
+          <w confidence="0.9200"/>
+        </seg>
+        <lb n="0"/>
+        <seg type="line">
+          寒來暑往，秋收冬藏。
+          <w confidence="0.8800"/>
+        </seg>
+      </div>
+    </body>
+  </text>
+</TEI>

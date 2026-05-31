@@ -1,0 +1,35 @@
+{
+  "taskId": "7d390b70-0a94-45e9-a2d9-82545fd8ce24",
+  "fullText": "天地玄黃，宇宙洪荒。\n日月盈昃，辰宿列張。\n寒來暑往，秋收冬藏。",
+  "pages": [
+    {
+      "pageNumber": 1,
+      "width": 800,
+      "height": 600,
+      "imagePath": "/storage/uploads/test.png",
+      "textLines": [
+        {
+          "id": 13,
+          "content": "天地玄黃，宇宙洪荒。",
+          "columnIndex": null,
+          "lineIndex": null,
+          "confidence": null
+        },
+        {
+          "id": 14,
+          "content": "日月盈昃，辰宿列張。",
+          "columnIndex": null,
+          "lineIndex": null,
+          "confidence": null
+        },
+        {
+          "id": 15,
+          "content": "寒來暑往，秋收冬藏。",
+          "columnIndex": null,
+          "lineIndex": null,
+          "confidence": null
+        }
+      ]
+    }
+  ]
+}
