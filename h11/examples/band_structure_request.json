@@ -1,0 +1,35 @@
+{
+    "unit_cell": {
+        "size": [0.5, 0.5],
+        "lattice_type": "square",
+        "background_material": "Air",
+        "background_material_properties": {
+            "name": "Air",
+            "density": 1.21,
+            "sound_velocity_longitudinal": 343.0,
+            "sound_velocity_shear": 0.0
+        },
+        "scatterers": [
+            {
+                "shape": "circle",
+                "position": [0.0, 0.0],
+                "size": 0.15,
+                "material": "Steel",
+                "material_properties": {
+                    "name": "Steel",
+                    "density": 7850.0,
+                    "sound_velocity_longitudinal": 5960.0,
+                    "sound_velocity_shear": 3235.0
+                }
+            }
+        ],
+        "mesh_resolution": 0.08,
+        "wave_type": "sh",
+        "n_bands": 10,
+        "n_k_points": 30
+    },
+    "compute_dos": true,
+    "compute_group_velocity": true,
+    "dos_broadening": 0.02,
+    "dos_n_bins": 100
+}

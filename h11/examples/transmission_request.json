@@ -1,0 +1,42 @@
+{
+    "unit_cell_layers": [
+        {
+            "thickness": 0.01,
+            "material": "Steel",
+            "material_properties": {
+                "name": "Steel",
+                "density": 7850.0,
+                "sound_velocity_longitudinal": 5960.0,
+                "sound_velocity_shear": 3235.0
+            }
+        },
+        {
+            "thickness": 0.01,
+            "material": "Rubber",
+            "material_properties": {
+                "name": "Rubber",
+                "density": 1100.0,
+                "sound_velocity_longitudinal": 1000.0,
+                "sound_velocity_shear": 30.0
+            }
+        }
+    ],
+    "n_periods": 8,
+    "frequency_range": [1000, 80000],
+    "n_frequencies": 400,
+    "incident_material": "Air",
+    "transmitted_material": "Air",
+    "wave_type": "sh",
+    "incident_material_properties": {
+        "name": "Air",
+        "density": 1.21,
+        "sound_velocity_longitudinal": 343.0,
+        "sound_velocity_shear": 0.0
+    },
+    "transmitted_material_properties": {
+        "name": "Air",
+        "density": 1.21,
+        "sound_velocity_longitudinal": 343.0,
+        "sound_velocity_shear": 0.0
+    }
+}
