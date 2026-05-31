@@ -1,0 +1,24 @@
+============================================================
+CRYPTOGRAPHIC ANALYSIS REPORT
+============================================================
+
+Is encrypted: False
+Overall confidence: 50.00%
+Likely algorithm: unknown
+
+Randomness Test Results:
+----------------------------------------
+  chi_square                [FAIL] score=0.000
+  runs_test                 [PASS] score=1.000
+  autocorrelation           [FAIL] score=0.867
+  kolmogorov_smirnov        [FAIL] score=0.000
+  block_frequency           [FAIL] score=0.000
+  longest_run               [PASS] score=0.543
+
+Average entropy: 7.1808
+Entropy standard deviation: 1.3270
+High entropy regions: 0
+
+Algorithm guess details:
+  algorithm: unknown
+  confidence: 0.5

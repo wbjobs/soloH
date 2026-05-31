@@ -1,0 +1,158 @@
+<?xml version="1.0" ?>
+<protocol name="TestProtocol" version="1.0">
+  <info>
+    <description>Reverse engineered protocol from 15 messages</description>
+    <created_at>2026-05-23T17:26:39.274064</created_at>
+    <messages_analyzed>15</messages_analyzed>
+    <average_message_length>54.00</average_message_length>
+    <endianness>auto</endianness>
+    <consensus_header>34 12 01 03 01 00 72 64 11 6a 0d 00 b8 19 e8 ca d6 10 9b ef 9e f5 ba 90 0b c3 b9 fa 80 9b 37 0d bb f8 2f 37 96 91 dd eb b5 47 0a 48 21 04 14 06 59 a4 f7 d5 66 b0 ef f0 49 c4 0a 0d 6b cc 49 16 0a 40 ea 5f 63 c7 79 e3 51 cc 63 48 a2 0a 26 73 70 a5 01 b8 f7 e7 36 bd 15 27 0e 0b 85 d1 6e f4 98 40 66 ea 0c 72 12 00 ba 4a 67 4f 18 b7 c8 93 b7 4f a8 fa b4 c0 23 95 cf 00 c2 9e 61 a6 5d 95 7d 45 77 62 f4 13 64 91 6d df e5 3f 1c 0a 67 1d c9 c4 b1 fe f0 e0 21 78 fc 7d ce 4c 7b 61 6e 15 fa 6a 12 d5 0b ab 18 31 3b 1e 6a 60 82 38 e8 62 88 7d 05 32 8e c0 ed 95 a9 62 9c bf 16 9f 4a bf c5 49 52 25 04 f0 c7 5a f6 82 34 90 5d e0 e4 d9 33 1a 56 db 02 89 c8 6d 06 97 28 0b 49 e3 19 f4 55 04 f3 2c 0d d7 7a fd b0 e0 f2 9b e6</consensus_header>
+  </info>
+  <fields>
+    <field name="fixed_0000" offset="0" length="3">
+      <field_type>fixed</field_type>
+      <is_fixed>True</is_fixed>
+      <inferred_type>enum</inferred_type>
+      <confidence>1.000</confidence>
+      <description>Fixed field - value conserved across messages</description>
+      <sample_values>
+        <value>341201</value>
+        <value>341201</value>
+        <value>341201</value>
+        <value>341201</value>
+        <value>341201</value>
+      </sample_values>
+    </field>
+    <field name="variable_0003" offset="3" length="2">
+      <field_type>variable</field_type>
+      <is_fixed>False</is_fixed>
+      <inferred_type>integer</inferred_type>
+      <confidence>0.267</confidence>
+      <description>Variable field - 15/15 unique values</description>
+      <sample_values>
+        <value>0201</value>
+        <value>0202</value>
+        <value>0003</value>
+        <value>0304</value>
+        <value>0205</value>
+      </sample_values>
+    </field>
+    <field name="fixed_0005" offset="5" length="1">
+      <field_type>fixed</field_type>
+      <is_fixed>True</is_fixed>
+      <inferred_type>integer</inferred_type>
+      <confidence>1.000</confidence>
+      <description>Fixed field - value conserved across messages</description>
+      <sample_values>
+        <value>00</value>
+        <value>00</value>
+        <value>00</value>
+        <value>00</value>
+        <value>00</value>
+      </sample_values>
+    </field>
+    <field name="variable_0006" offset="6" length="2">
+      <field_type>variable</field_type>
+      <is_fixed>False</is_fixed>
+      <inferred_type>integer</inferred_type>
+      <confidence>0.133</confidence>
+      <description>Variable field - 15/15 unique values</description>
+      <sample_values>
+        <value>726e</value>
+        <value>e36f</value>
+        <value>9266</value>
+        <value>8564</value>
+        <value>f467</value>
+      </sample_values>
+    </field>
+    <field name="fixed_0008" offset="8" length="2">
+      <field_type>fixed</field_type>
+      <is_fixed>True</is_fixed>
+      <inferred_type>integer</inferred_type>
+      <confidence>1.000</confidence>
+      <description>Fixed field - value conserved across messages</description>
+      <sample_values>
+        <value>116a</value>
+        <value>116a</value>
+        <value>116a</value>
+        <value>116a</value>
+        <value>116a</value>
+      </sample_values>
+    </field>
+    <field name="variable_000a" offset="10" length="1">
+      <field_type>variable</field_type>
+      <is_fixed>False</is_fixed>
+      <inferred_type>ascii</inferred_type>
+      <confidence>1.000</confidence>
+      <description>Variable field - 12/15 unique values</description>
+      <sample_values>
+        <value>15</value>
+        <value>1c</value>
+        <value>2f</value>
+        <value>20</value>
+        <value>0d</value>
+      </sample_values>
+      <is_length_field>true</is_length_field>
+      <points_to_offset>14</points_to_offset>
+    </field>
+    <field name="fixed_000b" offset="11" length="1">
+      <field_type>fixed</field_type>
+      <is_fixed>True</is_fixed>
+      <inferred_type>integer</inferred_type>
+      <confidence>1.000</confidence>
+      <description>Fixed field - value conserved across messages</description>
+      <sample_values>
+        <value>00</value>
+        <value>00</value>
+        <value>00</value>
+        <value>00</value>
+        <value>00</value>
+      </sample_values>
+    </field>
+    <field name="variable_000c" offset="12" length="34">
+      <field_type>variable</field_type>
+      <is_fixed>False</is_fixed>
+      <inferred_type>integer</inferred_type>
+      <confidence>0.108</confidence>
+      <description>Variable field - 15/15 unique values</description>
+      <sample_values>
+        <value>900bc3b6fa80bf370dbb592f37c991ddeb292d81482104</value>
+        <value>13109b1c9ef50b7777aec65cb49e376b993fe50270d27838e6aa240499d6</value>
+        <value>b819e8ca62fca25989426253f26688e0833e3efd2851be55c796dce6e9680d936e69</value>
+        <value>b61277dd3cd2ff149e2eba248aaab9083b9b6d3d6af86e0d96a14ddec947cb57f6e9</value>
+        <value>c209d7bfb51785fae1d7470a89a37b</value>
+      </sample_values>
+    </field>
+    <field name="fixed_002e" offset="46" length="191">
+      <field_type>fixed</field_type>
+      <is_fixed>True</is_fixed>
+      <inferred_type>unknown</inferred_type>
+      <confidence>1.000</confidence>
+      <description>Fixed field - value conserved across messages</description>
+      <sample_values>
+        <value>267370a501b8f7e736bd15270e0b85</value>
+        <value>c0ed95a9629cbf169f4abfc549522504f0c75af68234905de0e4</value>
+        <value>d16ef4984066ea0c721200ba4a674f18b7c8</value>
+        <value>f41364916ddfe53f1c0a671dc9c4b1fef0e02178fc7dce</value>
+        <value>6bcc49160a40ea5f63c779e351cc6348a20a</value>
+      </sample_values>
+    </field>
+  </fields>
+  <length_relations>
+    <relation length_offset="10" length_length="1" target_offset="14" confidence="1.000"/>
+    <relation length_offset="10" length_length="2" target_offset="13" confidence="1.000"/>
+    <relation length_offset="10" length_length="2" target_offset="14" confidence="1.000"/>
+  </length_relations>
+  <statistics>
+    <stat name="total_messages">15</stat>
+    <stat name="unique_lengths">12</stat>
+    <stat name="min_length">27</stat>
+    <stat name="max_length">76</stat>
+    <stat name="avg_length">54.0</stat>
+    <stat name="total_fields">9</stat>
+    <stat name="fixed_fields">5</stat>
+    <stat name="variable_fields">4</stat>
+    <stat name="avg_entropy">2.759903610212449</stat>
+    <stat name="std_entropy">1.2806678820435424</stat>
+  </statistics>
+</protocol>

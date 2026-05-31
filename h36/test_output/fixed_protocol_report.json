@@ -1,0 +1,995 @@
+{
+  "protocol_name": "FixedTestProtocol",
+  "version": "1.0",
+  "description": "Reverse engineered protocol from 15 messages",
+  "created_at": "2026-05-23T18:03:42.591542",
+  "messages_analyzed": 15,
+  "average_message_length": 54.0,
+  "endianness": "auto",
+  "fields": [
+    {
+      "name": "fixed_0000",
+      "offset": 0,
+      "length": 3,
+      "field_type": "fixed",
+      "is_fixed": true,
+      "inferred_type": "enum",
+      "confidence": 1.0,
+      "description": "Fixed field - value conserved across messages",
+      "sample_values": [
+        "341201",
+        "341201",
+        "341201",
+        "341201",
+        "341201"
+      ],
+      "enum_values": {},
+      "is_checksum": false,
+      "checksum_type": "",
+      "is_length_field": false,
+      "points_to_offset": -1
+    },
+    {
+      "name": "variable_0003",
+      "offset": 3,
+      "length": 2,
+      "field_type": "variable",
+      "is_fixed": false,
+      "inferred_type": "integer",
+      "confidence": 0.26666666666666666,
+      "description": "Variable field - 15/15 unique values",
+      "sample_values": [
+        "0201",
+        "0202",
+        "0003",
+        "0304",
+        "0205"
+      ],
+      "enum_values": {},
+      "is_checksum": false,
+      "checksum_type": "",
+      "is_length_field": false,
+      "points_to_offset": -1
+    },
+    {
+      "name": "fixed_0005",
+      "offset": 5,
+      "length": 1,
+      "field_type": "fixed",
+      "is_fixed": true,
+      "inferred_type": "integer",
+      "confidence": 1.0,
+      "description": "Fixed field - value conserved across messages",
+      "sample_values": [
+        "00",
+        "00",
+        "00",
+        "00",
+        "00"
+      ],
+      "enum_values": {},
+      "is_checksum": false,
+      "checksum_type": "",
+      "is_length_field": false,
+      "points_to_offset": -1
+    },
+    {
+      "name": "variable_0006",
+      "offset": 6,
+      "length": 2,
+      "field_type": "variable",
+      "is_fixed": false,
+      "inferred_type": "integer",
+      "confidence": 0.13333333333333333,
+      "description": "Variable field - 15/15 unique values",
+      "sample_values": [
+        "726e",
+        "e36f",
+        "9266",
+        "8564",
+        "f467"
+      ],
+      "enum_values": {},
+      "is_checksum": false,
+      "checksum_type": "",
+      "is_length_field": false,
+      "points_to_offset": -1
+    },
+    {
+      "name": "fixed_0008",
+      "offset": 8,
+      "length": 2,
+      "field_type": "fixed",
+      "is_fixed": true,
+      "inferred_type": "integer",
+      "confidence": 1.0,
+      "description": "Fixed field - value conserved across messages",
+      "sample_values": [
+        "116a",
+        "116a",
+        "116a",
+        "116a",
+        "116a"
+      ],
+      "enum_values": {},
+      "is_checksum": false,
+      "checksum_type": "",
+      "is_length_field": false,
+      "points_to_offset": -1
+    },
+    {
+      "name": "variable_000a",
+      "offset": 10,
+      "length": 1,
+      "field_type": "variable",
+      "is_fixed": false,
+      "inferred_type": "ascii",
+      "confidence": 1.0,
+      "description": "Variable field - 12/15 unique values",
+      "sample_values": [
+        "15",
+        "1c",
+        "2f",
+        "20",
+        "0d"
+      ],
+      "enum_values": {},
+      "is_checksum": false,
+      "checksum_type": "",
+      "is_length_field": true,
+      "points_to_offset": 14
+    },
+    {
+      "name": "fixed_000b",
+      "offset": 11,
+      "length": 1,
+      "field_type": "fixed",
+      "is_fixed": true,
+      "inferred_type": "integer",
+      "confidence": 1.0,
+      "description": "Fixed field - value conserved across messages",
+      "sample_values": [
+        "00",
+        "00",
+        "00",
+        "00",
+        "00"
+      ],
+      "enum_values": {},
+      "is_checksum": false,
+      "checksum_type": "",
+      "is_length_field": false,
+      "points_to_offset": -1
+    },
+    {
+      "name": "variable_000c",
+      "offset": 12,
+      "length": 20,
+      "field_type": "variable",
+      "is_fixed": false,
+      "inferred_type": "unknown",
+      "confidence": 0.06404761904761905,
+      "description": "Variable field - 15/15 unique values",
+      "sample_values": [
+        "900bc3b6fa80bf370dbb592f37c991",
+        "13109b1c9ef50b7777aec65cb49e37",
+        "b819e8ca62fca25989426253f26688",
+        "b61277dd3cd2ff149e2eba248aaab9",
+        "c209d7bfb51785fae1d7470a89a37b"
+      ],
+      "enum_values": {},
+      "is_checksum": false,
+      "checksum_type": "",
+      "is_length_field": false,
+      "points_to_offset": -1
+    },
+    {
+      "name": "fixed_0020",
+      "offset": 32,
+      "length": 23,
+      "field_type": "fixed",
+      "is_fixed": true,
+      "inferred_type": "unknown",
+      "confidence": 1.0,
+      "description": "Fixed field - value conserved across messages",
+      "sample_values": [
+        "ddeb292d81482104",
+        "6b993fe50270d27838e6aa24",
+        "8df82e"
+      ],
+      "enum_values": {},
+      "is_checksum": false,
+      "checksum_type": "",
+      "is_length_field": false,
+      "points_to_offset": -1
+    },
+    {
+      "name": "variable_0037",
+      "offset": 55,
+      "length": 3,
+      "field_type": "variable",
+      "is_fixed": false,
+      "inferred_type": "unknown",
+      "confidence": 0.0,
+      "description": "Variable field - 0/0 unique values",
+      "sample_values": [],
+      "enum_values": {},
+      "is_checksum": false,
+      "checksum_type": "",
+      "is_length_field": false,
+      "points_to_offset": -1
+    },
+    {
+      "name": "fixed_003a",
+      "offset": 58,
+      "length": 50,
+      "field_type": "fixed",
+      "is_fixed": true,
+      "inferred_type": "unknown",
+      "confidence": 1.0,
+      "description": "Fixed field - value conserved across messages",
+      "sample_values": [
+        "0499d6",
+        "083b9b6d3d6af86e0d96a14ddec947cb57f6e9",
+        "d2ae93a5565cc8b8298f782b3be432cf002dc4140659a4f7d566b0ef"
+      ],
+      "enum_values": {},
+      "is_checksum": false,
+      "checksum_type": "",
+      "is_length_field": false,
+      "points_to_offset": -1
+    },
+    {
+      "name": "variable_006c",
+      "offset": 108,
+      "length": 2,
+      "field_type": "variable",
+      "is_fixed": false,
+      "inferred_type": "unknown",
+      "confidence": 0.0,
+      "description": "Variable field - 0/0 unique values",
+      "sample_values": [],
+      "enum_values": {},
+      "is_checksum": false,
+      "checksum_type": "",
+      "is_length_field": false,
+      "points_to_offset": -1
+    },
+    {
+      "name": "fixed_006e",
+      "offset": 110,
+      "length": 73,
+      "field_type": "fixed",
+      "is_fixed": true,
+      "inferred_type": "unknown",
+      "confidence": 1.0,
+      "description": "Fixed field - value conserved across messages",
+      "sample_values": [
+        "2573e07e4dc546df5394ee8646951971517f10d16ef4984066ea0c721200ba",
+        "d403ad8c20601e08be5ee26d3d568092c9ee856bcc49160a40ea5f63c779e351cc6348a20a",
+        "f049c40a0d"
+      ],
+      "enum_values": {},
+      "is_checksum": false,
+      "checksum_type": "",
+      "is_length_field": false,
+      "points_to_offset": -1
+    },
+    {
+      "name": "variable_00b7",
+      "offset": 183,
+      "length": 2,
+      "field_type": "variable",
+      "is_fixed": false,
+      "inferred_type": "unknown",
+      "confidence": 0.0,
+      "description": "Variable field - 0/0 unique values",
+      "sample_values": [],
+      "enum_values": {},
+      "is_checksum": false,
+      "checksum_type": "",
+      "is_length_field": false,
+      "points_to_offset": -1
+    },
+    {
+      "name": "fixed_00b9",
+      "offset": 185,
+      "length": 204,
+      "field_type": "fixed",
+      "is_fixed": true,
+      "inferred_type": "unknown",
+      "confidence": 1.0,
+      "description": "Fixed field - value conserved across messages",
+      "sample_values": [
+        "e0833e3efd2851be55c796dce6e9680d936e69267370a501b8f7e736bd15270e0b85",
+        "166a4d2dd1dccf941155726368dbeae4dfe18ac0ed95a9629cbf169f4abfc549522504f0c7",
+        "4a674f18b7c8",
+        "1a4ba6a28cb40bd6d4bf869e54b5880ad05d23f41364916ddfe53f1c0a671dc9c4b1fef0e02178fc7dce",
+        "668b9bda33c42d0b3bb567a0d1816e87dc776d4c7b616e15fa6a12d50bab18313b1e6a608238e862887d05328e"
+      ],
+      "enum_values": {},
+      "is_checksum": false,
+      "checksum_type": "",
+      "is_length_field": false,
+      "points_to_offset": -1
+    },
+    {
+      "name": "variable_0185",
+      "offset": 389,
+      "length": 2,
+      "field_type": "variable",
+      "is_fixed": false,
+      "inferred_type": "unknown",
+      "confidence": 0.0,
+      "description": "Variable field - 0/0 unique values",
+      "sample_values": [],
+      "enum_values": {},
+      "is_checksum": false,
+      "checksum_type": "",
+      "is_length_field": false,
+      "points_to_offset": -1
+    },
+    {
+      "name": "fixed_0187",
+      "offset": 391,
+      "length": 51,
+      "field_type": "fixed",
+      "is_fixed": true,
+      "inferred_type": "unknown",
+      "confidence": 1.0,
+      "description": "Fixed field - value conserved across messages",
+      "sample_values": [
+        "5af68234905de0e4",
+        "30671b09fa25a4c8931079c537b5852cb1495dd9331a56db0289c86d0697280b49e319f45504f32c0dd77a"
+      ],
+      "enum_values": {},
+      "is_checksum": false,
+      "checksum_type": "",
+      "is_length_field": false,
+      "points_to_offset": -1
+    },
+    {
+      "name": "variable_01ba",
+      "offset": 442,
+      "length": 3,
+      "field_type": "variable",
+      "is_fixed": false,
+      "inferred_type": "unknown",
+      "confidence": 0.0,
+      "description": "Variable field - 0/0 unique values",
+      "sample_values": [],
+      "enum_values": {},
+      "is_checksum": false,
+      "checksum_type": "",
+      "is_length_field": false,
+      "points_to_offset": -1
+    },
+    {
+      "name": "fixed_01bd",
+      "offset": 445,
+      "length": 6,
+      "field_type": "fixed",
+      "is_fixed": true,
+      "inferred_type": "integer",
+      "confidence": 1.0,
+      "description": "Fixed field - value conserved across messages",
+      "sample_values": [
+        "fdb0e0f29be6"
+      ],
+      "enum_values": {},
+      "is_checksum": false,
+      "checksum_type": "",
+      "is_length_field": false,
+      "points_to_offset": -1
+    }
+  ],
+  "consensus_header": "34 12 01 03 01 00 72 64 11 6a 0d 00 90 19 4f b6 d6 80 bf 37 0d bb 59 2f 37 c9 fd 8d f8 2e dd eb 29 2d 81 48 21 04 6b 99 3f e5 02 70 d2 78 38 e6 aa 24 04 99 d6 08 3b 9b 6d 3d 6a f8 6e 0d 96 a1 4d de c9 47 cb 57 f6 e9 d2 ae 93 a5 56 5c c8 b8 29 8f 78 2b 3b e4 32 cf 00 2d c4 14 06 59 a4 f7 d5 66 b0 ef f0 49 c4 0a 0d d4 03 ad 8c 20 60 1e 08 be 5e e2 6d 3d 56 80 92 c9 ee 85 6b cc 49 16 0a 40 ea 5f 63 c7 79 e3 51 cc 63 48 a2 0a 25 73 e0 7e 4d c5 46 df 53 94 ee 86 46 95 19 71 51 7f 10 d1 6e f4 98 40 66 ea 0c 72 12 00 ba 4a 67 4f 18 b7 c8 e0 83 3e 3e fd 28 51 be 55 c7 96 dc e6 e9 68 0d 93 6e 69 26 73 70 a5 01 b8 f7 e7 36 bd 15 27 0e 0b 85 f0 b9 92 d3 37 9a dc 6c 31 ba ab a4 9f 15 3d aa ca cd eb 93 b7 4f a8 fa b4 c0 23 95 cf 00 c2 9e 61 a6 5d 95 7d 45 77 62 1a 4b a6 a2 8c b4 0b d6 d4 bf 86 9e 54 b5 88 0a d0 5d 23 f4 13 64 91 6d df e5 3f 1c 0a 67 1d c9 c4 b1 fe f0 e0 21 78 fc 7d ce 66 8b 9b da 33 c4 2d 0b 3b b5 67 a0 d1 81 6e 87 dc 77 6d 4c 7b 61 6e 15 fa 6a 12 d5 0b ab 18 31 3b 1e 6a 60 82 38 e8 62 88 7d 05 32 8e 16 6a 4d 2d d1 dc cf 94 11 55 72 63 68 db ea e4 df e1 8a c0 ed 95 a9 62 9c bf 16 9f 4a bf c5 49 52 25 04 f0 c7 5a f6 82 34 90 5d e0 e4 30 67 1b 09 fa 25 a4 c8 93 10 79 c5 37 b5 85 2c b1 49 5d d9 33 1a 56 db 02 89 c8 6d 06 97 28 0b 49 e3 19 f4 55 04 f3 2c 0d d7 7a fd b0 e0 f2 9b e6",
+  "length_relations": [
+    {
+      "length_offset": 10,
+      "length_length": 1,
+      "target_offset": 14,
+      "confidence": 1.0,
+      "matches": 15,
+      "total": 15,
+      "endianness": "little"
+    },
+    {
+      "length_offset": 10,
+      "length_length": 2,
+      "target_offset": 13,
+      "confidence": 1.0,
+      "matches": 15,
+      "total": 15,
+      "endianness": "little"
+    },
+    {
+      "length_offset": 10,
+      "length_length": 2,
+      "target_offset": 14,
+      "confidence": 1.0,
+      "matches": 15,
+      "total": 15,
+      "endianness": "little"
+    }
+  ],
+  "checksum_candidates": [],
+  "sequence_candidates": [
+    {
+      "offset": 4,
+      "length": 1,
+      "type": "sequence_increasing",
+      "confidence": 1.0,
+      "values": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    {
+      "offset": 4,
+      "length": 2,
+      "type": "sequence_increasing",
+      "confidence": 1.0,
+      "values": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    }
+  ],
+  "entropy_data": {
+    "offset_entropy": [
+      {
+        "offset": 0,
+        "entropy": 0.0,
+        "unique_bytes": 1
+      },
+      {
+        "offset": 1,
+        "entropy": 0.0,
+        "unique_bytes": 1
+      },
+      {
+        "offset": 2,
+        "entropy": 0.0,
+        "unique_bytes": 1
+      },
+      {
+        "offset": 3,
+        "entropy": 1.53012496531497,
+        "unique_bytes": 3
+      },
+      {
+        "offset": 4,
+        "entropy": 3.906890595608518,
+        "unique_bytes": 15
+      },
+      {
+        "offset": 5,
+        "entropy": 0.0,
+        "unique_bytes": 1
+      },
+      {
+        "offset": 6,
+        "entropy": 3.906890595608518,
+        "unique_bytes": 15
+      },
+      {
+        "offset": 7,
+        "entropy": 3.0565647621309537,
+        "unique_bytes": 9
+      },
+      {
+        "offset": 8,
+        "entropy": 0.0,
+        "unique_bytes": 1
+      },
+      {
+        "offset": 9,
+        "entropy": 0.0,
+        "unique_bytes": 1
+      },
+      {
+        "offset": 10,
+        "entropy": 3.506890595608518,
+        "unique_bytes": 12
+      },
+      {
+        "offset": 11,
+        "entropy": 0.0,
+        "unique_bytes": 1
+      },
+      {
+        "offset": 12,
+        "entropy": 3.906890595608518,
+        "unique_bytes": 15
+      },
+      {
+        "offset": 13,
+        "entropy": 3.506890595608519,
+        "unique_bytes": 12
+      },
+      {
+        "offset": 14,
+        "entropy": 3.773557262275185,
+        "unique_bytes": 14
+      },
+      {
+        "offset": 15,
+        "entropy": 3.906890595608518,
+        "unique_bytes": 15
+      },
+      {
+        "offset": 16,
+        "entropy": 3.773557262275185,
+        "unique_bytes": 14
+      },
+      {
+        "offset": 17,
+        "entropy": 3.906890595608518,
+        "unique_bytes": 15
+      },
+      {
+        "offset": 18,
+        "entropy": 3.906890595608518,
+        "unique_bytes": 15
+      },
+      {
+        "offset": 19,
+        "entropy": 3.906890595608518,
+        "unique_bytes": 15
+      },
+      {
+        "offset": 20,
+        "entropy": 3.906890595608518,
+        "unique_bytes": 15
+      },
+      {
+        "offset": 21,
+        "entropy": 3.906890595608518,
+        "unique_bytes": 15
+      },
+      {
+        "offset": 22,
+        "entropy": 3.906890595608518,
+        "unique_bytes": 15
+      },
+      {
+        "offset": 23,
+        "entropy": 3.906890595608518,
+        "unique_bytes": 15
+      },
+      {
+        "offset": 24,
+        "entropy": 3.906890595608518,
+        "unique_bytes": 15
+      },
+      {
+        "offset": 25,
+        "entropy": 3.906890595608518,
+        "unique_bytes": 15
+      },
+      {
+        "offset": 26,
+        "entropy": 3.640223928941851,
+        "unique_bytes": 13
+      },
+      {
+        "offset": 27,
+        "entropy": 3.7004397181410926,
+        "unique_bytes": 13
+      },
+      {
+        "offset": 28,
+        "entropy": 3.584962500721156,
+        "unique_bytes": 12
+      },
+      {
+        "offset": 29,
+        "entropy": 3.418295834054489,
+        "unique_bytes": 11
+      },
+      {
+        "offset": 30,
+        "entropy": 3.418295834054489,
+        "unique_bytes": 11
+      },
+      {
+        "offset": 31,
+        "entropy": 3.584962500721156,
+        "unique_bytes": 12
+      },
+      {
+        "offset": 32,
+        "entropy": 3.584962500721156,
+        "unique_bytes": 12
+      },
+      {
+        "offset": 33,
+        "entropy": 3.584962500721156,
+        "unique_bytes": 12
+      },
+      {
+        "offset": 34,
+        "entropy": 3.584962500721156,
+        "unique_bytes": 12
+      },
+      {
+        "offset": 35,
+        "entropy": 3.459431618637298,
+        "unique_bytes": 11
+      },
+      {
+        "offset": 36,
+        "entropy": 3.459431618637298,
+        "unique_bytes": 11
+      },
+      {
+        "offset": 37,
+        "entropy": 3.459431618637298,
+        "unique_bytes": 11
+      },
+      {
+        "offset": 38,
+        "entropy": 3.459431618637298,
+        "unique_bytes": 11
+      },
+      {
+        "offset": 39,
+        "entropy": 3.459431618637298,
+        "unique_bytes": 11
+      },
+      {
+        "offset": 40,
+        "entropy": 3.277613436819116,
+        "unique_bytes": 10
+      },
+      {
+        "offset": 41,
+        "entropy": 3.459431618637298,
+        "unique_bytes": 11
+      },
+      {
+        "offset": 42,
+        "entropy": 3.321928094887362,
+        "unique_bytes": 10
+      },
+      {
+        "offset": 43,
+        "entropy": 3.321928094887362,
+        "unique_bytes": 10
+      },
+      {
+        "offset": 44,
+        "entropy": 3.321928094887362,
+        "unique_bytes": 10
+      },
+      {
+        "offset": 45,
+        "entropy": 3.321928094887362,
+        "unique_bytes": 10
+      },
+      {
+        "offset": 46,
+        "entropy": 3.169925001442312,
+        "unique_bytes": 9
+      },
+      {
+        "offset": 47,
+        "entropy": 3.169925001442312,
+        "unique_bytes": 9
+      },
+      {
+        "offset": 48,
+        "entropy": 3.169925001442312,
+        "unique_bytes": 9
+      },
+      {
+        "offset": 49,
+        "entropy": 3.169925001442312,
+        "unique_bytes": 9
+      },
+      {
+        "offset": 50,
+        "entropy": 3.169925001442312,
+        "unique_bytes": 9
+      },
+      {
+        "offset": 51,
+        "entropy": 3.169925001442312,
+        "unique_bytes": 9
+      },
+      {
+        "offset": 52,
+        "entropy": 2.94770277922009,
+        "unique_bytes": 8
+      },
+      {
+        "offset": 53,
+        "entropy": 3.169925001442312,
+        "unique_bytes": 9
+      },
+      {
+        "offset": 54,
+        "entropy": 3.169925001442312,
+        "unique_bytes": 9
+      },
+      {
+        "offset": 55,
+        "entropy": 3.169925001442312,
+        "unique_bytes": 9
+      },
+      {
+        "offset": 56,
+        "entropy": 2.94770277922009,
+        "unique_bytes": 8
+      },
+      {
+        "offset": 57,
+        "entropy": 3.169925001442312,
+        "unique_bytes": 9
+      },
+      {
+        "offset": 58,
+        "entropy": 3.169925001442312,
+        "unique_bytes": 9
+      },
+      {
+        "offset": 59,
+        "entropy": 3.169925001442312,
+        "unique_bytes": 9
+      },
+      {
+        "offset": 60,
+        "entropy": 3.0,
+        "unique_bytes": 8
+      },
+      {
+        "offset": 61,
+        "entropy": 2.807354922057604,
+        "unique_bytes": 7
+      },
+      {
+        "offset": 62,
+        "entropy": 2.5216406363433186,
+        "unique_bytes": 6
+      },
+      {
+        "offset": 63,
+        "entropy": 2.807354922057604,
+        "unique_bytes": 7
+      },
+      {
+        "offset": 64,
+        "entropy": 2.321928094887362,
+        "unique_bytes": 5
+      },
+      {
+        "offset": 65,
+        "entropy": 2.321928094887362,
+        "unique_bytes": 5
+      },
+      {
+        "offset": 66,
+        "entropy": 1.9219280948873623,
+        "unique_bytes": 4
+      },
+      {
+        "offset": 67,
+        "entropy": 2.0,
+        "unique_bytes": 4
+      },
+      {
+        "offset": 68,
+        "entropy": 2.0,
+        "unique_bytes": 4
+      },
+      {
+        "offset": 69,
+        "entropy": 1.584962500721156,
+        "unique_bytes": 3
+      },
+      {
+        "offset": 70,
+        "entropy": 1.584962500721156,
+        "unique_bytes": 3
+      },
+      {
+        "offset": 71,
+        "entropy": 1.584962500721156,
+        "unique_bytes": 3
+      },
+      {
+        "offset": 72,
+        "entropy": 0.0,
+        "unique_bytes": 1
+      },
+      {
+        "offset": 73,
+        "entropy": 0.0,
+        "unique_bytes": 1
+      },
+      {
+        "offset": 74,
+        "entropy": 0.0,
+        "unique_bytes": 1
+      },
+      {
+        "offset": 75,
+        "entropy": 0.0,
+        "unique_bytes": 1
+      }
+    ],
+    "average_entropy": 2.759903610212449,
+    "std_entropy": 1.2806678820435424,
+    "overall_entropy": 7.478276840069939,
+    "low_entropy_offsets": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      8,
+      9,
+      11,
+      66,
+      69,
+      70,
+      71,
+      72,
+      73,
+      74,
+      75
+    ],
+    "high_entropy_offsets": [],
+    "message_analysis": [
+      {
+        "message_index": 0,
+        "length": 35,
+        "overall_entropy": 4.957854445516393,
+        "low_regions": [
+          [
+            0,
+            35
+          ]
+        ],
+        "high_regions": []
+      },
+      {
+        "message_index": 1,
+        "length": 42,
+        "overall_entropy": 5.041010577489155,
+        "low_regions": [
+          [
+            0,
+            42
+          ]
+        ],
+        "high_regions": []
+      },
+      {
+        "message_index": 2,
+        "length": 61,
+        "overall_entropy": 5.688853935888073,
+        "low_regions": [
+          [
+            0,
+            61
+          ]
+        ],
+        "high_regions": []
+      },
+      {
+        "message_index": 3,
+        "length": 46,
+        "overall_entropy": 5.393127173448314,
+        "low_regions": [
+          [
+            0,
+            46
+          ]
+        ],
+        "high_regions": []
+      },
+      {
+        "message_index": 4,
+        "length": 27,
+        "overall_entropy": 4.606739354015322,
+        "low_regions": [
+          [
+            0,
+            27
+          ]
+        ],
+        "high_regions": []
+      },
+      {
+        "message_index": 5,
+        "length": 72,
+        "overall_entropy": 5.843400348604442,
+        "low_regions": [
+          [
+            0,
+            72
+          ]
+        ],
+        "high_regions": []
+      },
+      {
+        "message_index": 6,
+        "length": 64,
+        "overall_entropy": 5.800704882778696,
+        "low_regions": [
+          [
+            0,
+            64
+          ]
+        ],
+        "high_regions": []
+      },
+      {
+        "message_index": 7,
+        "length": 69,
+        "overall_entropy": 5.992582427792657,
+        "low_regions": [
+          [
+            0,
+            69
+          ]
+        ],
+        "high_regions": []
+      },
+      {
+        "message_index": 8,
+        "length": 27,
+        "overall_entropy": 4.504706483564823,
+        "low_regions": [
+          [
+            0,
+            27
+          ]
+        ],
+        "high_regions": []
+      },
+      {
+        "message_index": 9,
+        "length": 64,
+        "overall_entropy": 5.65625,
+        "low_regions": [
+          [
+            0,
+            64
+          ]
+        ],
+        "high_regions": []
+      }
+    ]
+  },
+  "statistics": {
+    "total_messages": 15,
+    "unique_lengths": 12,
+    "min_length": 27,
+    "max_length": 76,
+    "avg_length": 54.0,
+    "total_fields": 19,
+    "fixed_fields": 10,
+    "variable_fields": 9,
+    "avg_entropy": 2.759903610212449,
+    "std_entropy": 1.2806678820435424
+  }
+}
