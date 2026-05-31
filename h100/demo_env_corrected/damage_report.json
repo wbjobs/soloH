@@ -1,0 +1,160 @@
+{
+  "timestamp": "2026-05-26 10:38:45",
+  "method": "NExT-ERA",
+  "summary": {
+    "total_elements": 11,
+    "damaged_elements_count": 4,
+    "damage_ratio": 0.36363636363636365,
+    "max_stiffness_reduction_pct": 16.512987272337735,
+    "average_stiffness_reduction_pct": 4.872952454350321,
+    "env_correction_applied": true
+  },
+  "modal_comparison": [
+    {
+      "mode": 1,
+      "baseline_freq_hz": 1.1962890625,
+      "damaged_freq_hz": 1.03759765625,
+      "freq_change_pct": -13.265306121340108,
+      "baseline_damping": 0.015306122448979591,
+      "damaged_damping": 0.023529411764705882
+    },
+    {
+      "mode": 2,
+      "baseline_freq_hz": 1.20849609375,
+      "damaged_freq_hz": 2.40478515625,
+      "freq_change_pct": 98.98989898170782,
+      "baseline_damping": 0.020202020202020204,
+      "damaged_damping": 0.017766497461928935
+    },
+    {
+      "mode": 3,
+      "baseline_freq_hz": 2.79541015625,
+      "damaged_freq_hz": 2.4169921875,
+      "freq_change_pct": -13.53711790344587,
+      "baseline_damping": 0.015283842794759825,
+      "damaged_damping": 0.017676767676767676
+    },
+    {
+      "mode": 4,
+      "baseline_freq_hz": 2.8076171875,
+      "damaged_freq_hz": 2.44140625,
+      "freq_change_pct": -13.04347826040499,
+      "baseline_damping": 0.015217391304347827,
+      "damaged_damping": 0.0275
+    },
+    {
+      "mode": 5,
+      "baseline_freq_hz": 2.81982421875,
+      "damaged_freq_hz": 4.7607421875,
+      "freq_change_pct": 68.83116882872785,
+      "baseline_damping": 0.023809523809523808,
+      "damaged_damping": 0.07051282051282051
+    },
+    {
+      "mode": 6,
+      "baseline_freq_hz": 4.5166015625,
+      "damaged_freq_hz": 5.37109375,
+      "freq_change_pct": 18.918918918500044,
+      "baseline_damping": 0.11756756756756757,
+      "damaged_damping": 0.011363636363636364
+    },
+    {
+      "mode": 7,
+      "baseline_freq_hz": 8.19091796875,
+      "damaged_freq_hz": 6.01806640625,
+      "freq_change_pct": -26.527570789542008,
+      "baseline_damping": 0.2,
+      "damaged_damping": 0.08012170385395538
+    },
+    {
+      "mode": 8,
+      "baseline_freq_hz": 11.58447265625,
+      "damaged_freq_hz": 7.97119140625,
+      "freq_change_pct": -31.190727080868793,
+      "baseline_damping": 0.2,
+      "damaged_damping": 0.2
+    }
+  ],
+  "damaged_elements": [
+    {
+      "element_id": 6,
+      "node_i": 6,
+      "node_j": 7,
+      "damage_index": 0.8683112376727953,
+      "mse_di": 0.48502636450079495,
+      "flex_di": 826.3685417085851,
+      "severity": "critical",
+      "stiffness_reduction_pct": 12.163837561748993
+    },
+    {
+      "element_id": 9,
+      "node_i": 9,
+      "node_j": 10,
+      "damage_index": 0.5009237609986847,
+      "mse_di": 0.6584463285613167,
+      "flex_di": 1.5267341842436726,
+      "severity": "severe",
+      "stiffness_reduction_pct": 16.512987272337735
+    },
+    {
+      "element_id": 5,
+      "node_i": 5,
+      "node_j": 6,
+      "damage_index": 0.3627257938999562,
+      "mse_di": 0.3943195650943049,
+      "flex_di": 104.60829786203139,
+      "severity": "severe",
+      "stiffness_reduction_pct": 9.889027665873968
+    },
+    {
+      "element_id": 1,
+      "node_i": 1,
+      "node_j": 2,
+      "damage_index": 0.35513851466958346,
+      "mse_di": 0.46521910072463896,
+      "flex_di": 3.0876217245659134,
+      "severity": "severe",
+      "stiffness_reduction_pct": 11.66709685495495
+    }
+  ],
+  "stiffness_reduction_pct": [
+    1.5430799776604631,
+    11.66709685495495,
+    0.0,
+    0.0,
+    1.8264476652774204,
+    9.889027665873968,
+    12.163837561748993,
+    0.0,
+    0.0,
+    16.512987272337735,
+    0.0
+  ],
+  "mse_damage_index": [
+    0.0615294694539642,
+    0.46521910072463896,
+    -0.2703196039795282,
+    -0.23852661497801583,
+    0.07282860088712811,
+    0.3943195650943049,
+    0.48502636450079495,
+    -0.31395819797392815,
+    -0.46632902896961564,
+    0.6584463285613167,
+    -0.16023137711493302
+  ],
+  "flex_damage_index": [
+    3.5449825082929696,
+    3.0876217245659134,
+    5.163850507511415,
+    5.982765281232154,
+    10.17038751076179,
+    104.60829786203139,
+    826.3685417085851,
+    1.762856158932021,
+    3.106109377581548,
+    1.5267341842436726,
+    0.9564801458240387,
+    3.114776339302286
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "n_total_candidates": 12,
+  "n_selected": 8,
+  "criterion": "d_optimal",
+  "method": "sequential_forward",
+  "selected_sensors": [
+    1,
+    2,
+    4,
+    5,
+    6,
+    7,
+    9,
+    10
+  ],
+  "objective_value": 24.854249651779018,
+  "evaluation": {
+    "d_optimal": 24.854249651779018,
+    "a_optimal": -0.008181718333447397,
+    "e_optimal": -382.9392120889205,
+    "shannon_entropy": -6.751370693070817,
+    "condition_number": 1.3189155172398255
+  }
+}

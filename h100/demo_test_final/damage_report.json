@@ -1,0 +1,190 @@
+{
+  "timestamp": "2026-05-26 10:38:26",
+  "method": "NExT-ERA",
+  "summary": {
+    "total_elements": 11,
+    "damaged_elements_count": 7,
+    "damage_ratio": 0.6363636363636364,
+    "max_stiffness_reduction_pct": 95.0,
+    "average_stiffness_reduction_pct": 16.652384183881825,
+    "env_correction_applied": true
+  },
+  "modal_comparison": [
+    {
+      "mode": 1,
+      "baseline_freq_hz": 1.1962890625,
+      "damaged_freq_hz": 0.537109375,
+      "freq_change_pct": -55.10204081172045,
+      "baseline_damping": 0.015306122448979591,
+      "damaged_damping": 0.2
+    },
+    {
+      "mode": 2,
+      "baseline_freq_hz": 2.79541015625,
+      "damaged_freq_hz": 1.0986328125,
+      "freq_change_pct": -60.69868995416051,
+      "baseline_damping": 0.03056768558951965,
+      "damaged_damping": 0.016666666666666666
+    },
+    {
+      "mode": 3,
+      "baseline_freq_hz": 2.8076171875,
+      "damaged_freq_hz": 1.11083984375,
+      "freq_change_pct": -60.43478260654312,
+      "baseline_damping": 0.01956521739130435,
+      "damaged_damping": 0.016483516483516484
+    },
+    {
+      "mode": 4,
+      "baseline_freq_hz": 2.81982421875,
+      "damaged_freq_hz": 2.57568359375,
+      "freq_change_pct": -8.658008657701616,
+      "baseline_damping": 0.01948051948051948,
+      "damaged_damping": 0.02132701421800948
+    },
+    {
+      "mode": 5,
+      "baseline_freq_hz": 3.3203125,
+      "damaged_freq_hz": 2.60009765625,
+      "freq_change_pct": -21.69117646993495,
+      "baseline_damping": 0.07720588235294118,
+      "damaged_damping": 0.02112676056338028
+    },
+    {
+      "mode": 6,
+      "baseline_freq_hz": 5.65185546875,
+      "damaged_freq_hz": 2.6123046875,
+      "freq_change_pct": -53.779697623238526,
+      "baseline_damping": 0.03995680345572354,
+      "damaged_damping": 0.035046728971962614
+    },
+    {
+      "mode": 7,
+      "baseline_freq_hz": 8.88671875,
+      "damaged_freq_hz": 4.65087890625,
+      "freq_change_pct": -47.66483516429881,
+      "baseline_damping": 0.009615384615384616,
+      "damaged_damping": 0.1141732283464567
+    },
+    {
+      "mode": 8,
+      "baseline_freq_hz": 9.43603515625,
+      "damaged_freq_hz": 5.84716796875,
+      "freq_change_pct": -38.03363518717779,
+      "baseline_damping": 0.2,
+      "damaged_damping": 0.08768267223382047
+    }
+  ],
+  "damaged_elements": [
+    {
+      "element_id": 5,
+      "node_i": 5,
+      "node_j": 6,
+      "damage_index": 0.7715544849874235,
+      "mse_di": 1.6772661513715874,
+      "flex_di": 42.36113509030368,
+      "severity": "critical",
+      "stiffness_reduction_pct": 59.08961659255484
+    },
+    {
+      "element_id": 2,
+      "node_i": 2,
+      "node_j": 3,
+      "damage_index": 0.5410272248671423,
+      "mse_di": 3.088268181959258,
+      "flex_di": 3.4759196313344516,
+      "severity": "severe",
+      "stiffness_reduction_pct": 95.0
+    },
+    {
+      "element_id": 1,
+      "node_i": 1,
+      "node_j": 2,
+      "damage_index": 0.45161994867133604,
+      "mse_di": -0.29882114632212275,
+      "flex_di": 42.36113509030368,
+      "severity": "severe",
+      "stiffness_reduction_pct": 0.0
+    },
+    {
+      "element_id": 6,
+      "node_i": 6,
+      "node_j": 7,
+      "damage_index": 0.3562477071533303,
+      "mse_di": -0.33482249735627195,
+      "flex_di": 34.77480535312488,
+      "severity": "severe",
+      "stiffness_reduction_pct": 0.0
+    },
+    {
+      "element_id": 0,
+      "node_i": 0,
+      "node_j": 1,
+      "damage_index": 0.18990541855977103,
+      "mse_di": 0.5357506219620324,
+      "flex_di": 8.740437849495821,
+      "severity": "moderate",
+      "stiffness_reduction_pct": 18.874344310276268
+    },
+    {
+      "element_id": 4,
+      "node_i": 4,
+      "node_j": 5,
+      "damage_index": 0.16816620260622847,
+      "mse_di": -0.2550966455569023,
+      "flex_di": 17.74653031051437,
+      "severity": "moderate",
+      "stiffness_reduction_pct": 0.0
+    },
+    {
+      "element_id": 8,
+      "node_i": 8,
+      "node_j": 9,
+      "damage_index": 0.12256321087519037,
+      "mse_di": 0.21545964238818918,
+      "flex_di": 7.428418171831741,
+      "severity": "mild",
+      "stiffness_reduction_pct": 7.590582835929719
+    }
+  ],
+  "stiffness_reduction_pct": [
+    18.874344310276268,
+    0.0,
+    95.0,
+    2.6216822839392395,
+    0.0,
+    59.08961659255484,
+    0.0,
+    0.0,
+    7.590582835929719,
+    0.0,
+    0.0
+  ],
+  "mse_damage_index": [
+    0.5357506219620324,
+    -0.29882114632212275,
+    3.088268181959258,
+    0.07441677925958791,
+    -0.2550966455569023,
+    1.6772661513715874,
+    -0.33482249735627195,
+    -0.5502720339757028,
+    0.21545964238818918,
+    -0.2714041539839262,
+    -0.19897502075951232
+  ],
+  "flex_damage_index": [
+    8.740437849495821,
+    42.36113509030368,
+    3.4759196313344516,
+    4.416806225272288,
+    17.74653031051437,
+    42.36113509030368,
+    34.77480535312488,
+    1.1222552560809136,
+    7.428418171831741,
+    1.2923037230219963,
+    0.3717289557055726,
+    10.287368504176095
+  ]
+}

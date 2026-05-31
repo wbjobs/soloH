@@ -1,0 +1,138 @@
+{
+  "timestamp": "2026-05-26 11:41:11",
+  "method": "NExT-ERA",
+  "summary": {
+    "total_elements": 7,
+    "damaged_elements_count": 3,
+    "damage_ratio": 0.42857142857142855,
+    "max_stiffness_reduction_pct": 17.718470031635157,
+    "average_stiffness_reduction_pct": 4.086109458655562,
+    "env_correction_applied": false
+  },
+  "modal_comparison": [
+    {
+      "mode": 1,
+      "baseline_freq_hz": 0.09765625,
+      "damaged_freq_hz": 0.09765625,
+      "freq_change_pct": 0.0,
+      "baseline_damping": 0.2,
+      "damaged_damping": 0.2
+    },
+    {
+      "mode": 2,
+      "baseline_freq_hz": 1.0009765625,
+      "damaged_freq_hz": 0.91552734375,
+      "freq_change_pct": -8.536585365000834,
+      "baseline_damping": 0.024390243902439025,
+      "damaged_damping": 0.02
+    },
+    {
+      "mode": 3,
+      "baseline_freq_hz": 2.5146484375,
+      "damaged_freq_hz": 1.28173828125,
+      "freq_change_pct": -49.02912621164249,
+      "baseline_damping": 0.021844660194174758,
+      "damaged_damping": 0.03333333333333333
+    },
+    {
+      "mode": 4,
+      "baseline_freq_hz": 5.1513671875,
+      "damaged_freq_hz": 1.9775390625,
+      "freq_change_pct": -61.61137440638692,
+      "baseline_damping": 0.03909952606635071,
+      "damaged_damping": 0.043209876543209874
+    },
+    {
+      "mode": 5,
+      "baseline_freq_hz": 5.28564453125,
+      "damaged_freq_hz": 2.294921875,
+      "freq_change_pct": -56.581986142116584,
+      "baseline_damping": 0.008083140877598153,
+      "damaged_damping": 0.02127659574468085
+    },
+    {
+      "mode": 6,
+      "baseline_freq_hz": 5.79833984375,
+      "damaged_freq_hz": 2.3193359375,
+      "freq_change_pct": -59.99999999896522,
+      "baseline_damping": 0.028421052631578948,
+      "damaged_damping": 0.021052631578947368
+    },
+    {
+      "mode": 7,
+      "baseline_freq_hz": 6.54296875,
+      "damaged_freq_hz": 3.7353515625,
+      "freq_change_pct": -42.910447760538204,
+      "baseline_damping": 0.012126865671641791,
+      "damaged_damping": 0.013071895424836602
+    },
+    {
+      "mode": 8,
+      "baseline_freq_hz": 7.65380859375,
+      "damaged_freq_hz": 7.45849609375,
+      "freq_change_pct": -2.5518341307481585,
+      "baseline_damping": 0.025518341307814992,
+      "damaged_damping": 0.008183306055646482
+    }
+  ],
+  "damaged_elements": [
+    {
+      "element_id": 2,
+      "node_i": 2,
+      "node_j": 3,
+      "damage_index": 0.8280184361311671,
+      "mse_di": 1.515354458965417,
+      "flex_di": 48.213543837818506,
+      "severity": "critical",
+      "stiffness_reduction_pct": 10.884296178953775
+    },
+    {
+      "element_id": 3,
+      "node_i": 3,
+      "node_j": 4,
+      "damage_index": 0.593667828917853,
+      "mse_di": 2.309861721139763,
+      "flex_di": 9.032115953554394,
+      "severity": "severe",
+      "stiffness_reduction_pct": 17.718470031635157
+    },
+    {
+      "element_id": 1,
+      "node_i": 1,
+      "node_j": 2,
+      "damage_index": 0.3932051994329122,
+      "mse_di": -0.4933624437099104,
+      "flex_di": 48.213543837818506,
+      "severity": "severe",
+      "stiffness_reduction_pct": 0.0
+    }
+  ],
+  "stiffness_reduction_pct": [
+    0.0,
+    0.0,
+    10.884296178953775,
+    17.718470031635157,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "mse_damage_index": [
+    -0.49548144421059465,
+    -0.4933624437099104,
+    1.515354458965417,
+    2.309861721139763,
+    -0.04258369530074451,
+    0.16968600870483133,
+    -0.460312444479716
+  ],
+  "flex_damage_index": [
+    11.215136541965956,
+    48.213543837818506,
+    48.213543837818506,
+    9.032115953554394,
+    4.583423654847734,
+    4.040299248085674,
+    5.689182896450988,
+    1.557373793240096
+  ]
+}
