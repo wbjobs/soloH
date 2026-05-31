@@ -1,0 +1,9 @@
+focal_length: 100.0
+baseline: 0.5
+pixel_pitch: 1.0e-05
+mla_pitch: 0.00015000000000000001
+num_views_u: 9
+num_views_v: 9
+image_resolution: null
+subaperture_resolution: null
+principal_point: null
