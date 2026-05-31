@@ -1,0 +1,339 @@
+#pragma kernel CalculateFrictionPoints
+#pragma kernel CalculateWaterFilm
+#pragma kernel GenerateHeatmap
+
+struct FrictionPoint
+{
+    float velocity;
+    float frictionCoeff;
+    float contactRatio;
+    float hydroPressure;
+};
+
+struct MaterialParams
+{
+    float elasticModulus;
+    float poissonRatio;
+    float hurstExponent;
+    float rmsRoughness;
+    float correlationLength;
+    float lossFactor;
+    float shoreHardness;
+    float padding;
+};
+
+struct GroundParams
+{
+    int groundType;
+    float roughness;
+    float hardness;
+    float waterFilmThickness;
+    float fluidViscosity;
+    float hurstExponent;
+    float padding1;
+    float padding2;
+};
+
+cbuffer SimulationParams
+{
+    MaterialParams material;
+    GroundParams ground;
+    float averagePressure;
+    float contactAreaRatio;
+    int velocityCount;
+    float minVelocity;
+    float maxVelocity;
+    float minimumLengthScale;
+    float staticFrictionMultiplier;
+    float transitionVelocity;
+    float transitionSharpness;
+    int enableStickSlip;
+    float groundCorrelationLength;
+    float groundMinLengthScale;
+    float groundHurst;
+    float padding4;
+};
+
+StructuredBuffer<float> contactPressure;
+StructuredBuffer<float> waterFilmThickness;
+StructuredBuffer<FrictionPoint> frictionResults;
+RWTexture2D<float4> heatmapTexture;
+
+float Erf(float x)
+{
+    float sign = x >= 0 ? 1.0f : -1.0f;
+    x = abs(x);
+
+    float a1 = 0.254829592f;
+    float a2 = -0.284496736f;
+    float a3 = 1.421413741f;
+    float a4 = -1.453152027f;
+    float a5 = 1.061405429f;
+    float p = 0.3275911f;
+
+    float t = 1.0f / (1.0f + p * x);
+    float y = 1.0f - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * exp(-x * x);
+
+    return sign * y;
+}
+
+float GetComplexModulus(float omega)
+{
+    float gPrime = 0.0f;
+    float gDoublePrime = 0.0f;
+
+    float tau[5] = { 1e-6f, 1e-5f, 1e-4f, 1e-3f, 1e-2f };
+    float G[5] = { 5.0f, 3.0f, 2.0f, 1.5f, 1.2f };
+
+    float scale = material.elasticModulus / 2.5f;
+
+    for (int i = 0; i < 5; i++)
+    {
+        float omegaTau = omega * tau[i];
+        float denom = 1.0f + omegaTau * omegaTau;
+        gPrime += G[i] * scale * omegaTau * omegaTau / denom;
+        gDoublePrime += G[i] * scale * omegaTau / denom;
+    }
+
+    return sqrt(gPrime * gPrime + gDoublePrime * gDoublePrime);
+}
+
+float GetLossModulus(float omega)
+{
+    float gDoublePrime = 0.0f;
+
+    float tau[5] = { 1e-6f, 1e-5f, 1e-4f, 1e-3f, 1e-2f };
+    float G[5] = { 5.0f, 3.0f, 2.0f, 1.5f, 1.2f };
+
+    float scale = material.elasticModulus / 2.5f;
+
+    for (int i = 0; i < 5; i++)
+    {
+        float omegaTau = omega * tau[i];
+        float denom = 1.0f + omegaTau * omegaTau;
+        gDoublePrime += G[i] * scale * omegaTau / denom;
+    }
+
+    return gDoublePrime;
+}
+
+float PowerSpectrum(float q, float rmsHeight, float q0, float hurst, float q_low, float q_high)
+{
+    if (q < q_low)
+    {
+        float c0 = rmsHeight * rmsHeight * pow(q0, 2.0f * (hurst + 1.0f)) / (2.0f * PI * hurst);
+        return c0 * exp(-(q_low - q) / q_low * 2.0f);
+    }
+    else if (q > q_high)
+    {
+        float c0 = rmsHeight * rmsHeight * pow(q0, 2.0f * (hurst + 1.0f)) / (2.0f * PI * hurst);
+        float cutoffValue = c0 * pow(q_high / q0, -2.0f * (hurst + 1.0f));
+        float rolloff = exp(-(q - q_high) * (1.0f / q_high) * 5.0f);
+        return cutoffValue * rolloff;
+    }
+    else
+    {
+        float c0 = rmsHeight * rmsHeight * pow(q0, 2.0f * (hurst + 1.0f)) / (2.0f * PI * hurst);
+        return c0 * pow(q / q0, -2.0f * (hurst + 1.0f));
+    }
+}
+
+float GroundPowerSpectrum(float q)
+{
+    float rmsHeight = ground.roughness * 1e-6f;
+    float corrLength = groundCorrelationLength * 1e-6f;
+    float q0 = 1.0f / corrLength;
+    float q_cutoff = 1.0f / groundMinLengthScale;
+
+    if (q < q0)
+    {
+        float c0 = rmsHeight * rmsHeight * pow(q0, 2.0f * (groundHurst + 1.0f)) / (2.0f * PI * groundHurst);
+        return c0;
+    }
+    else if (q > q_cutoff)
+    {
+        float c0 = rmsHeight * rmsHeight * pow(q0, 2.0f * (groundHurst + 1.0f)) / (2.0f * PI * groundHurst);
+        float rolloffFactor = exp(-(q - q_cutoff) * groundMinLengthScale * 0.5f);
+        return c0 * pow(q_cutoff / q0, -2.0f * (groundHurst + 1.0f)) * rolloffFactor;
+    }
+    else
+    {
+        float c0 = rmsHeight * rmsHeight * pow(q0, 2.0f * (groundHurst + 1.0f)) / (2.0f * PI * groundHurst);
+        return c0 * pow(q / q0, -2.0f * (groundHurst + 1.0f));
+    }
+}
+
+float ApplyStickSlip(float velocity, float kineticFriction)
+{
+    if (enableStickSlip == 0) return kineticFriction;
+    if (velocity <= 0) return kineticFriction * staticFrictionMultiplier;
+
+    float vTrans = transitionVelocity;
+    float alpha = transitionSharpness;
+
+    float normalizedV = log10(max(velocity, 1e-10f) / vTrans);
+    float transition = 0.5f * (1.0f + Erf(normalizedV / alpha));
+
+    float staticFriction = kineticFriction * staticFrictionMultiplier;
+    return lerp(staticFriction, kineticFriction, transition);
+}
+
+float CalculateAdhesiveFriction(float velocity, float pressure)
+{
+    if (velocity <= 0) return 0.0f;
+
+    float tau0 = 1e6f;
+    float alpha = 1e-3f;
+    float shearStrength = tau0 * (1.0f - exp(-alpha * velocity));
+    float effectiveModulus = material.elasticModulus * 1e6f / (1.0f - material.poissonRatio * material.poissonRatio);
+    float effectiveArea = min(1.0f, pressure / effectiveModulus);
+
+    return shearStrength * effectiveArea / max(pressure, 1e3f);
+}
+
+float CalculateViscoelasticFriction(float velocity, float rmsHeight, float correlationLength)
+{
+    if (velocity <= 0) return 0.0f;
+
+    int spectrumSize = 512;
+    float q0 = 1.0f / correlationLength;
+    float q1 = 1.0f / minimumLengthScale;
+
+    float integral = 0.0f;
+    float dLogQ = log(q1 / q0) / spectrumSize;
+
+    for (int i = 0; i < spectrumSize; i++)
+    {
+        float t = (float)i / spectrumSize;
+        float q = exp(log(q0) + t * log(q1 / q0));
+        float omega = velocity * q;
+
+        float Cq = PowerSpectrum(q, rmsHeight, q0, material.hurstExponent, q0, q1);
+        float Cq_ground = GroundPowerSpectrum(q);
+        Cq = sqrt(Cq * Cq + Cq_ground * Cq_ground);
+
+        float GDoublePrime = GetLossModulus(omega);
+        float GStar = GetComplexModulus(omega);
+
+        if (GStar > 0)
+        {
+            float integrand = q * q * Cq * (GDoublePrime / GStar);
+            integral += integrand * dLogQ;
+        }
+    }
+
+    return (2.0f / PI) * integral;
+}
+
+float CalculateHydrodynamicFriction(float velocity, float pressure)
+{
+    if (velocity <= 0 || ground.waterFilmThickness <= 0) return 0.0f;
+
+    float viscosity = ground.fluidViscosity;
+    float baseFilm = ground.waterFilmThickness * 1e-6f;
+    float rmsRoughness = material.rmsRoughness * 1e-6f;
+
+    float h = baseFilm * exp(-pressure / (ground.hardness * 1e9f) * 0.5f);
+    float shearRate = velocity / max(h, 1e-9f);
+    float tau = viscosity * shearRate;
+
+    return tau / max(pressure, 1e3f);
+}
+
+[numthreads(64, 1, 1)]
+void CalculateFrictionPoints(uint3 id : SV_DispatchThreadID)
+{
+    int i = id.x;
+    if (i >= velocityCount) return;
+
+    float t = (float)i / (velocityCount - 1);
+    float logV = log10(minVelocity) + t * log10(maxVelocity / minVelocity);
+    float velocity = pow(10.0f, logV);
+
+    float rmsHeight = material.rmsRoughness * 1e-6f;
+    float corrLength = material.correlationLength * 1e-6f;
+
+    float muAdhesion = CalculateAdhesiveFriction(velocity, averagePressure);
+    float muVisco = CalculateViscoelasticFriction(velocity, rmsHeight, corrLength);
+    float muHydro = CalculateHydrodynamicFriction(velocity, averagePressure);
+
+    float dryRatio = contactAreaRatio;
+    if (ground.waterFilmThickness > 0)
+    {
+        float lambda = ground.waterFilmThickness * 1e-6f / max(rmsHeight, 1e-9f);
+        dryRatio = lambda >= 3.0f ? 0.05f : exp(-lambda * 0.8f);
+    }
+
+    float muDry = muAdhesion + muVisco;
+    muDry = ApplyStickSlip(velocity, muDry);
+
+    FrictionPoint point;
+    point.velocity = velocity;
+    point.frictionCoeff = clamp(muDry * dryRatio + muHydro * (1.0f - dryRatio), 0.01f, 3.0f);
+    point.contactRatio = dryRatio;
+    point.hydroPressure = muHydro * averagePressure;
+
+    frictionResults[i] = point;
+}
+
+[numthreads(8, 8, 1)]
+void CalculateWaterFilm(uint3 id : SV_DispatchThreadID)
+{
+    int x = id.x;
+    int y = id.y;
+    int n = 64;
+
+    if (x >= n || y >= n) return;
+
+    int idx = x * n + y;
+    float pressure = contactPressure[idx];
+    float baseFilm = ground.waterFilmThickness * 1e-6f;
+    float effectiveModulus = material.elasticModulus * 1e6f / (1.0f - material.poissonRatio * material.poissonRatio);
+
+    float squeeze = exp(-pressure / effectiveModulus * 2.0f);
+    float film = baseFilm * squeeze;
+
+    waterFilmThickness[idx] = film;
+}
+
+float4 HeatmapColor(float value, float minVal, float maxVal)
+{
+    float t = clamp((value - minVal) / max(maxVal - minVal, 1e-6f), 0.0f, 1.0f);
+
+    float4 blue = float4(0.0f, 0.0f, 1.0f, 1.0f);
+    float4 cyan = float4(0.0f, 1.0f, 1.0f, 1.0f);
+    float4 green = float4(0.0f, 1.0f, 0.0f, 1.0f);
+    float4 yellow = float4(1.0f, 1.0f, 0.0f, 1.0f);
+    float4 red = float4(1.0f, 0.0f, 0.0f, 1.0f);
+
+    if (t < 0.25f)
+        return lerp(blue, cyan, t / 0.25f);
+    else if (t < 0.5f)
+        return lerp(cyan, green, (t - 0.25f) / 0.25f);
+    else if (t < 0.75f)
+        return lerp(green, yellow, (t - 0.5f) / 0.25f);
+    else
+        return lerp(yellow, red, (t - 0.75f) / 0.25f);
+}
+
+[numthreads(8, 8, 1)]
+void GenerateHeatmap(uint3 id : SV_DispatchThreadID)
+{
+    int x = id.x;
+    int y = id.y;
+    int n = 64;
+
+    if (x >= n || y >= n) return;
+
+    int idx = x * n + y;
+    float pressure = contactPressure[idx];
+
+    float maxP = 0.0f;
+    for (int i = 0; i < n * n; i++)
+    {
+        maxP = max(maxP, contactPressure[i]);
+    }
+
+    float4 color = HeatmapColor(pressure, 0.0f, maxP);
+    heatmapTexture[int2(x, y)] = color;
+}

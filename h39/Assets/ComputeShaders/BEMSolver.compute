@@ -1,0 +1,136 @@
+#pragma kernel ComputeDisplacement
+#pragma kernel ComputeResidual
+#pragma kernel ApplyPressureUpdate
+#pragma kernel PrecomputeInfluenceRow
+
+struct BEMCell
+{
+    float2 position;
+    float pressure;
+    float displacement;
+    float gap;
+    float residual;
+};
+
+cbuffer Params
+{
+    int resolution;
+    float cellSize;
+    float effectiveModulus;
+    float targetLoad;
+    float tolerance;
+    int padding1;
+    int padding2;
+    int padding3;
+};
+
+StructuredBuffer<BEMCell> cells;
+StructuredBuffer<float> influenceMatrix;
+StructuredBuffer<float> searchDir;
+StructuredBuffer<float> tempBuffer;
+
+float InfluenceCoefficient(float2 a, float2 b, float E, float h)
+{
+    float dx = a.x - b.x;
+    float dy = a.y - b.y;
+    float r = sqrt(dx * dx + dy * dy);
+
+    if (r < h * 0.5f)
+    {
+        float factor = 1.0f / (PI * E);
+        return factor * (2.0f / h) * (log(2.0f / (1.0f + sqrt(2.0f))) + 1.0f);
+    }
+    else
+    {
+        return 1.0f / (PI * E * r);
+    }
+}
+
+[numthreads(8, 8, 1)]
+void PrecomputeInfluenceRow(uint3 id : SV_DispatchThreadID)
+{
+    int i = id.x * 8 + id.y;
+    int n = resolution;
+
+    if (i >= n * n) return;
+
+    int xi = i / n;
+    int yi = i % n;
+    float2 posI = float2((xi + 0.5f) * cellSize, (yi + 0.5f) * cellSize);
+
+    for (int j = 0; j < n * n; j++)
+    {
+        int xj = j / n;
+        int yj = j % n;
+        float2 posJ = float2((xj + 0.5f) * cellSize, (yj + 0.5f) * cellSize);
+
+        influenceMatrix[i * n * n + j] = InfluenceCoefficient(posI, posJ, effectiveModulus, cellSize);
+    }
+}
+
+[numthreads(8, 8, 1)]
+void ComputeDisplacement(uint3 id : SV_DispatchThreadID)
+{
+    int i = id.x * 8 + id.y;
+    int n = resolution;
+    int total = n * n;
+
+    if (i >= total) return;
+
+    float sum = 0.0f;
+    for (int j = 0; j < total; j++)
+    {
+        sum += influenceMatrix[i * total + j] * cells[j].pressure;
+    }
+
+    BEMCell cell = cells[i];
+    cell.displacement = sum;
+    cells[i] = cell;
+}
+
+[numthreads(8, 8, 1)]
+void ComputeResidual(uint3 id : SV_DispatchThreadID)
+{
+    int i = id.x * 8 + id.y;
+    int n = resolution;
+    int total = n * n;
+
+    if (i >= total) return;
+
+    BEMCell cell = cells[i];
+    float g = cell.gap - cell.displacement;
+    float epsilon = 1e-8f;
+
+    if (cell.pressure > epsilon)
+    {
+        cell.residual = g;
+    }
+    else if (g > epsilon)
+    {
+        cell.residual = -cell.pressure;
+    }
+    else
+    {
+        cell.residual = min(cell.pressure, g);
+    }
+
+    cells[i] = cell;
+    tempBuffer[i] = cell.residual * cell.residual;
+}
+
+[numthreads(8, 8, 1)]
+void ApplyPressureUpdate(uint3 id : SV_DispatchThreadID)
+{
+    int i = id.x * 8 + id.y;
+    int n = resolution;
+    int total = n * n;
+
+    if (i >= total) return;
+
+    BEMCell cell = cells[i];
+    float alpha = tempBuffer[0];
+    float dir = searchDir[i];
+
+    cell.pressure = max(0.0f, cell.pressure + alpha * dir);
+    cells[i] = cell;
+}
