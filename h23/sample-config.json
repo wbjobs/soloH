@@ -1,0 +1,21 @@
+{
+  "significance_level": 0.01,
+  "block_frequency_block_size": 128,
+  "runs_block_size": 10000,
+  "longest_run_block_size": 10000,
+  "rank_matrix_rows": 32,
+  "rank_matrix_cols": 32,
+  "non_overlapping_template_length": 9,
+  "non_overlapping_templates": null,
+  "overlapping_template_length": 9,
+  "overlapping_block_size": 1000000,
+  "universal_L": 7,
+  "universal_Q": 1280,
+  "universal_K": 40,
+  "lz_compression_block_size": 1000,
+  "linear_complexity_block_size": 1000,
+  "serial_block_size": 16,
+  "approximate_entropy_block_size": 10,
+  "cumulative_sum_mode": 0,
+  "random_excursions_state": 1
+}
