@@ -1,0 +1,47 @@
+[
+    {
+        "channel_id": "CH01",
+        "name": "Temperature_Sensor_1",
+        "wavelength_window": [1540, 1547],
+        "reference_wavelength": 1545.0,
+        "n_peaks": 1,
+        "calibration_coeffs": {
+            "k_T": 0.01,
+            "k_eps": 0.0012,
+            "u_k_T": 0.0005,
+            "u_k_eps": 0.00005,
+            "u_reference": 0.001
+        },
+        "description": "FBG温度传感器1"
+    },
+    {
+        "channel_id": "CH02",
+        "name": "Strain_Sensor_1",
+        "wavelength_window": [1547, 1553],
+        "reference_wavelength": 1550.0,
+        "n_peaks": 1,
+        "calibration_coeffs": {
+            "k_T": 0.01,
+            "k_eps": 0.0012,
+            "u_k_T": 0.0005,
+            "u_k_eps": 0.00005,
+            "u_reference": 0.001
+        },
+        "description": "FBG应变传感器1"
+    },
+    {
+        "channel_id": "CH03",
+        "name": "Temperature_Sensor_2",
+        "wavelength_window": [1553, 1560],
+        "reference_wavelength": 1555.0,
+        "n_peaks": 1,
+        "calibration_coeffs": {
+            "k_T": 0.01,
+            "k_eps": 0.0012,
+            "u_k_T": 0.0005,
+            "u_k_eps": 0.00005,
+            "u_reference": 0.001
+        },
+        "description": "FBG温度传感器2"
+    }
+]
