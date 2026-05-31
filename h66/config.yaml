@@ -1,0 +1,59 @@
+# Example configuration for heat inversion problem
+
+geometry:
+  use_box_mesh: true
+  nx: 30
+  ny: 30
+  nz: 1
+  length: 1.0
+  width: 1.0
+  height: 0.1
+  mesh_file: null
+  stl_file: null
+  resolution: 0.1
+
+boundary_conditions:
+  - type: dirichlet
+    value: 350.0
+    marker: 1
+
+physics:
+  rho: 8960.0
+  cp: 385.0
+  heat_source: 0.0
+
+measurements:
+  generate_synthetic: true
+  num_points: 20
+  mode: random
+  noise_std: 0.5
+  transient: false
+  true_conductivity:
+    type: expression
+    expression: '10.0 + 5.0 * sin(2*pi*x[0]) * sin(2*pi*x[1])'
+  file: null
+  points: []
+
+regularization:
+  type: tikhonov
+  alpha: 1e-3
+  beta: 1e-6
+  k_ref: null
+
+optimization:
+  max_iter: 100
+  ftol: 1e-8
+  gtol: 1e-5
+  k_min: 0.1
+  k_max: 200.0
+  initial_guess: 10.0
+  display_progress: true
+
+uncertainty:
+  quantify: true
+  compute_eigenvalues: false
+
+check_gradient: false
+
+output:
+  directory: output
