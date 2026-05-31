@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "crispr-offtarget-predictor"
+version = "1.0.0"
+description = "CRISPR脱靶位点预测服务 - 基于深度学习的sgRNA脱靶分析"
+authors = ["CRISPR Team"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.109.0"
+uvicorn = {extras = ["standard"], version = "^0.27.0"}
+pydantic = "^2.5.3"
+pydantic-settings = "^2.1.0"
+torch = "^2.1.2"
+numpy = "^1.26.3"
+pandas = "^2.1.4"
+biopython = "^1.81"
+pyfaidx = "^0.8.1.1"
+redis = "^5.0.1"
+python-multipart = "^0.0.6"
+httpx = "^0.26.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
