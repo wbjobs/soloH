@@ -1,0 +1,20 @@
+{
+  "name": "lsystem-plant-growth",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "L-system plant growth simulation with Babylon.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@babylonjs/core": "^7.0.0",
+    "@babylonjs/loaders": "^7.0.0",
+    "@babylonjs/serializers": "^7.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.0",
+    "vite": "^5.0.0"
+  }
+}
