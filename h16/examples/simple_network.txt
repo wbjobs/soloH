@@ -1,0 +1,12 @@
+# Simple Boolean Network - Bistable Switch
+# Two mutually inhibiting nodes (A and B) with positive autoregulation
+[Nodes]
+2
+A, A B NOT AND
+B, B A NOT AND
+[Edges]
+A, A
+A, B
+B, A
+B, B
+[Functions]

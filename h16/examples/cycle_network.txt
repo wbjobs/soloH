@@ -1,0 +1,12 @@
+# Repressilator - 3-node cyclic inhibitory network
+# Expected to show limit cycle behavior
+[Nodes]
+3
+X, Y NOT
+Y, Z NOT
+Z, X NOT
+[Edges]
+Y, X
+Z, Y
+X, Z
+[Functions]

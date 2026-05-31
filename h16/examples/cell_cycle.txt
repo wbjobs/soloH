@@ -1,0 +1,33 @@
+# Simplified Mammalian Cell Cycle Network (10 nodes)
+# Based on Faure et al. (2006)
+[Nodes]
+10
+Cdc20, Cdc20 Cdh1 NOT OR
+Cdh1, Cdh1 Cdc20 NOT OR
+ClbM, ClbM Cdh1 NOT Cdc20 NOT AND OR
+Cdc25, Cdc25 ClbM OR
+Pds1, Cdc20 NOT
+ClbS, Cdh1 NOT
+Cdc14, Cdc14 Cdc20 OR
+ClbM_total, ClbM_total ClbS NOT Cdh1 NOT AND OR
+Sic1, Cdc25 NOT Cdc14 OR
+Mcm1, ClbM NOT Cdc14 OR
+[Edges]
+Cdc20, Cdh1
+Cdh1, Cdc20
+Cdh1, ClbM
+Cdc20, ClbM
+ClbM, Cdc25
+Cdc25, ClbM
+Pds1, Cdc20
+Cdh1, ClbS
+Cdc20, Cdc14
+Cdc14, Cdc14
+ClbS, ClbM_total
+Cdh1, ClbM_total
+ClbM, Sic1
+Cdc25, Sic1
+Cdc14, Sic1
+ClbM, Mcm1
+Cdc14, Mcm1
+[Functions]
