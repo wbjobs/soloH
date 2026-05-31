@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: 'Noto Sans SC', system-ui, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0A192F 0%, #112240 50%, #1D3557 100%);
+  color: #CCD6F6;
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-space-900/60 backdrop-blur-md border border-slate-500/20 rounded-xl;
+  }
+  
+  .input-field {
+    @apply w-full px-4 py-2.5 bg-space-800/50 border border-slate-500/30 rounded-lg 
+           text-slate-300 font-mono text-sm
+           focus:outline-none focus:border-quantum-400/60 focus:ring-2 focus:ring-quantum-400/20
+           transition-all duration-300;
+  }
+  
+  .btn-primary {
+    @apply px-6 py-2.5 bg-quantum-400 text-space-950 font-semibold rounded-lg
+           hover:bg-quantum-500 hover:shadow-lg hover:shadow-quantum-400/25
+           active:scale-95 transition-all duration-300;
+  }
+  
+  .btn-secondary {
+    @apply px-6 py-2.5 bg-transparent border border-slate-500/40 text-slate-300 rounded-lg
+           hover:border-quantum-400/60 hover:text-quantum-400
+           transition-all duration-300;
+  }
+  
+  .nav-link {
+    @apply px-4 py-2 text-slate-400 rounded-lg cursor-pointer
+           hover:text-quantum-400 hover:bg-space-800/50
+           transition-all duration-300;
+  }
+  
+  .nav-link-active {
+    @apply text-quantum-400 bg-space-800/70 border border-quantum-400/30;
+  }
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(17, 34, 64, 0.5);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(100, 255, 218, 0.3);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 255, 218, 0.5);
+}
+
+/* 滑块样式 */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  background: #1D3557;
+  border-radius: 3px;
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: #64FFDA;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(100, 255, 218, 0.5);
+  transition: all 0.2s;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 15px rgba(100, 255, 218, 0.7);
+}
+
+/* 发光效果 */
+.glow-effect {
+  box-shadow: 0 0 20px rgba(100, 255, 218, 0.2);
+}
+
+.energy-glow {
+  box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+}
