@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D磁场可视化 - Biot-Savart定律</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+</head>
+<body>
+    <div id="container">
+        <div id="canvas-container"></div>
+        
+        <div id="ui-panel">
+            <h2>磁场可视化控制面板</h2>
+            
+            <div class="control-group">
+                <label>
+                    <input type="checkbox" id="draw-mode" checked>
+                    绘制导线模式
+                </label>
+            </div>
+            
+            <div class="control-group">
+                <label>电流强度 (A):</label>
+                <input type="range" id="current-slider" min="-10" max="10" step="0.1" value="1">
+                <span id="current-value">1.0 A</span>
+            </div>
+            
+            <div class="control-group">
+                <label>导线颜色:</label>
+                <div id="color-indicator" class="color-indicator"></div>
+                <span id="current-direction">电流方向: 正向</span>
+            </div>
+            
+            <div class="control-group">
+                <label>磁感线密度:</label>
+                <input type="range" id="line-density" min="1" max="20" step="1" value="8">
+                <span id="density-value">8</span>
+            </div>
+            
+            <div class="control-group">
+                <label>积分精度:</label>
+                <input type="range" id="tolerance" min="-6" max="-2" step="0.5" value="-4">
+                <span id="tolerance-value">1e-4</span>
+            </div>
+            
+            <div class="control-group">
+                <label>
+                    <input type="checkbox" id="show-heatmap" checked>
+                    显示热图切面
+                </label>
+            </div>
+            
+            <div class="control-group">
+                <label>热图分辨率:</label>
+                <input type="range" id="heatmap-resolution" min="16" max="128" step="16" value="64">
+                <span id="resolution-value">64</span>
+            </div>
+            
+            <div class="control-group">
+                <label>切面位置:</label>
+                <select id="slice-plane">
+                    <option value="xy">XY平面</option>
+                    <option value="xz">XZ平面</option>
+                    <option value="yz">YZ平面</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <button id="clear-wires">清除所有导线</button>
+                <button id="clear-field-lines">清除磁感线</button>
+                <button id="generate-lines">生成磁感线</button>
+            </div>
+            
+            <div class="control-group">
+                <h3>自适应网格加密</h3>
+                <label>最大加密级别:</label>
+                <input type="range" id="max-refinement" min="1" max="5" step="1" value="3">
+                <span id="refinement-value">3</span>
+                <br>
+                <label>误差容限:</label>
+                <input type="range" id="error-tolerance" min="-4" max="-1" step="0.5" value="-3">
+                <span id="error-value">1e-3</span>
+                <br>
+                <button id="estimate-errors">估计误差</button>
+                <button id="refine-mesh">自适应加密</button>
+                <span id="mesh-info">分段数: --</span>
+            </div>
+            
+            <div class="control-group">
+                <h3>时变电流 & 涡旋电场</h3>
+                <label>
+                    <input type="checkbox" id="time-varying">
+                    启用交变电流
+                </label>
+                <label>电流频率 (Hz):</label>
+                <input type="range" id="current-frequency" min="0.1" max="10" step="0.1" value="1">
+                <span id="freq-value">1.0 Hz</span>
+                <br>
+                <label>
+                    <input type="checkbox" id="show-efield">
+                    显示涡旋电场
+                </label>
+                <label>
+                    <input type="checkbox" id="animate-time">
+                    时间动画
+                </label>
+                <span id="time-value">时间: 0.00s</span>
+            </div>
+            
+            <div class="control-group">
+                <h3>数据导出</h3>
+                <label>VTK网格分辨率:</label>
+                <input type="range" id="vtk-resolution" min="10" max="50" step="5" value="20">
+                <span id="vtk-res-value">20</span>
+                <br>
+                <button id="export-vtk">导出VTK数据</button>
+            </div>
+            
+            <div class="control-group info">
+                <p><strong>使用说明:</strong></p>
+                <p>1. 勾选"绘制导线模式"，在3D视图中点击并拖动鼠标绘制导线</p>
+                <p>2. 调整电流强度，正值为红色（正向），负值为蓝色（反向）</p>
+                <p>3. 点击"生成磁感线"查看磁场分布</p>
+                <p>4. 热图切面显示磁通密度大小（红强蓝弱）</p>
+                <p>5. 鼠标滚轮缩放，右键拖动旋转视图</p>
+            </div>
+            
+            <div id="status">
+                <span id="wasm-status">WASM加载中...</span>
+                <span id="field-info">磁场强度: --</span>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/magnetic_wasm.js"></script>
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
