@@ -1,0 +1,607 @@
+#pragma kernel IntegrateParticles
+#pragma kernel IntegrateParticlesBatch
+#pragma kernel ResetParticles
+#pragma kernel ComputeFTLEGrid
+
+#define THREADS_PER_GROUP 128
+#define MAX_STEPS 128
+#define FIELD_STRIDE 8
+
+struct Particle
+{
+    float3 position;
+    float3 velocity;
+    float time;
+    float scalarValue;
+    int isAlive;
+    int id;
+    float stepSize;
+    float padding;
+};
+
+struct FieldData
+{
+    float3 velocity;
+    float pressure;
+    float vorticity;
+    float lyapunov;
+    float ftle;
+    float stretching;
+    float compression;
+    float padding1;
+};
+
+struct FTLEParticle
+{
+    float3 basePos;
+    float3 offsetX;
+    float3 offsetY;
+    float3 offsetZ;
+    float startTime;
+    float integrationTime;
+    int isActive;
+    int padding;
+};
+
+RWStructuredBuffer<Particle> Particles;
+StructuredBuffer<FieldData> FieldVolume0;
+StructuredBuffer<FieldData> FieldVolume1;
+RWStructuredBuffer<float3> TrailPositions;
+RWStructuredBuffer<float> TrailTimes;
+RWStructuredBuffer<float> TrailScalars;
+RWStructuredBuffer<int> TrailCounts;
+RWStructuredBuffer<float> FTLEField;
+RWStructuredBuffer<FTLEParticle> FTLEParticles;
+
+int3 FieldDimensions;
+float3 FieldMinBounds;
+float3 FieldCellSize;
+float TimeStepDuration;
+float DeltaTime;
+float SimulationTime;
+float TimeInterpolation;
+int IntegrationDirection;
+int ColorFieldType;
+float MinStepSize;
+float MaxStepSize;
+float Tolerance;
+int MaxTrailLength;
+int FieldGridSize;
+float IntegrationTime;
+float PerturbationSize;
+
+groupshared float3 s_CachedVelocities[16];
+groupshared float3 s_CachedPositions[16];
+
+static const float A[6] = { 0.0f, 0.25f, 0.375f, 12.0f/13.0f, 1.0f, 0.5f };
+static const float B[5][5] = {
+    { 0.25f, 0, 0, 0, 0 },
+    { 3.0f/32.0f, 9.0f/32.0f, 0, 0, 0 },
+    { 1932.0f/2197.0f, -7200.0f/2197.0f, 7296.0f/2197.0f, 0, 0 },
+    { 439.0f/216.0f, -8.0f, 3680.0f/513.0f, -845.0f/4104.0f, 0 },
+    { -8.0f/27.0f, 2.0f, -3544.0f/2565.0f, 1859.0f/4104.0f, -11.0f/40.0f }
+};
+static const float C4[6] = { 25.0f/216.0f, 0.0f, 1408.0f/2565.0f, 2197.0f/4104.0f, -0.2f, 0.0f };
+static const float C5[6] = { 16.0f/135.0f, 0.0f, 6656.0f/12825.0f, 28561.0f/56430.0f, -9.0f/50.0f, 2.0f/55.0f };
+
+FieldData SampleFieldData(float3 pos, float time)
+{
+    float3 normalizedPos = (pos - FieldMinBounds) / FieldCellSize;
+    
+    int x0 = clamp((int)normalizedPos.x, 0, FieldDimensions.x - 2);
+    int y0 = clamp((int)normalizedPos.y, 0, FieldDimensions.y - 2);
+    int z0 = clamp((int)normalizedPos.z, 0, FieldDimensions.z - 2);
+    
+    float fx = normalizedPos.x - x0;
+    float fy = normalizedPos.y - y0;
+    float fz = normalizedPos.z - z0;
+    
+    int idx000 = (z0 * FieldDimensions.y + y0) * FieldDimensions.x + x0;
+    int idx100 = idx000 + 1;
+    int idx010 = idx000 + FieldDimensions.x;
+    int idx110 = idx010 + 1;
+    int idx001 = idx000 + FieldDimensions.x * FieldDimensions.y;
+    int idx101 = idx001 + 1;
+    int idx011 = idx001 + FieldDimensions.x;
+    int idx111 = idx011 + 1;
+    
+    FieldData d000 = FieldVolume0[idx000];
+    FieldData d100 = FieldVolume0[idx100];
+    FieldData d010 = FieldVolume0[idx010];
+    FieldData d110 = FieldVolume0[idx110];
+    FieldData d001 = FieldVolume0[idx001];
+    FieldData d101 = FieldVolume0[idx101];
+    FieldData d011 = FieldVolume0[idx011];
+    FieldData d111 = FieldVolume0[idx111];
+    
+    FieldData d000t1 = FieldVolume1[idx000];
+    FieldData d100t1 = FieldVolume1[idx100];
+    FieldData d010t1 = FieldVolume1[idx010];
+    FieldData d110t1 = FieldVolume1[idx110];
+    FieldData d001t1 = FieldVolume1[idx001];
+    FieldData d101t1 = FieldVolume1[idx101];
+    FieldData d011t1 = FieldVolume1[idx011];
+    FieldData d111t1 = FieldVolume1[idx111];
+    
+    float t = TimeInterpolation;
+    
+    FieldData d000i, d100i, d010i, d110i, d001i, d101i, d011i, d111i;
+    
+    d000i.velocity = lerp(d000.velocity, d000t1.velocity, t);
+    d100i.velocity = lerp(d100.velocity, d100t1.velocity, t);
+    d010i.velocity = lerp(d010.velocity, d010t1.velocity, t);
+    d110i.velocity = lerp(d110.velocity, d110t1.velocity, t);
+    d001i.velocity = lerp(d001.velocity, d001t1.velocity, t);
+    d101i.velocity = lerp(d101.velocity, d101t1.velocity, t);
+    d011i.velocity = lerp(d011.velocity, d011t1.velocity, t);
+    d111i.velocity = lerp(d111.velocity, d111t1.velocity, t);
+    
+    d000i.pressure = lerp(d000.pressure, d000t1.pressure, t);
+    d100i.pressure = lerp(d100.pressure, d100t1.pressure, t);
+    d010i.pressure = lerp(d010.pressure, d010t1.pressure, t);
+    d110i.pressure = lerp(d110.pressure, d110t1.pressure, t);
+    d001i.pressure = lerp(d001.pressure, d001t1.pressure, t);
+    d101i.pressure = lerp(d101.pressure, d101t1.pressure, t);
+    d011i.pressure = lerp(d011.pressure, d011t1.pressure, t);
+    d111i.pressure = lerp(d111.pressure, d111t1.pressure, t);
+    
+    d000i.vorticity = lerp(d000.vorticity, d000t1.vorticity, t);
+    d100i.vorticity = lerp(d100.vorticity, d100t1.vorticity, t);
+    d010i.vorticity = lerp(d010.vorticity, d010t1.vorticity, t);
+    d110i.vorticity = lerp(d110.vorticity, d110t1.vorticity, t);
+    d001i.vorticity = lerp(d001.vorticity, d001t1.vorticity, t);
+    d101i.vorticity = lerp(d101.vorticity, d101t1.vorticity, t);
+    d011i.vorticity = lerp(d011.vorticity, d011t1.vorticity, t);
+    d111i.vorticity = lerp(d111.vorticity, d111t1.vorticity, t);
+    
+    d000i.lyapunov = lerp(d000.lyapunov, d000t1.lyapunov, t);
+    d100i.lyapunov = lerp(d100.lyapunov, d100t1.lyapunov, t);
+    d010i.lyapunov = lerp(d010.lyapunov, d010t1.lyapunov, t);
+    d110i.lyapunov = lerp(d110.lyapunov, d110t1.lyapunov, t);
+    d001i.lyapunov = lerp(d001.lyapunov, d001t1.lyapunov, t);
+    d101i.lyapunov = lerp(d101.lyapunov, d101t1.lyapunov, t);
+    d011i.lyapunov = lerp(d011.lyapunov, d011t1.lyapunov, t);
+    d111i.lyapunov = lerp(d111.lyapunov, d111t1.lyapunov, t);
+    
+    d000i.ftle = lerp(d000.ftle, d000t1.ftle, t);
+    d100i.ftle = lerp(d100.ftle, d100t1.ftle, t);
+    d010i.ftle = lerp(d010.ftle, d010t1.ftle, t);
+    d110i.ftle = lerp(d110.ftle, d110t1.ftle, t);
+    d001i.ftle = lerp(d001.ftle, d001t1.ftle, t);
+    d101i.ftle = lerp(d101.ftle, d101t1.ftle, t);
+    d011i.ftle = lerp(d011.ftle, d011t1.ftle, t);
+    d111i.ftle = lerp(d111.ftle, d111t1.ftle, t);
+    
+    d000i.stretching = lerp(d000.stretching, d000t1.stretching, t);
+    d100i.stretching = lerp(d100.stretching, d100t1.stretching, t);
+    d010i.stretching = lerp(d010.stretching, d010t1.stretching, t);
+    d110i.stretching = lerp(d110.stretching, d110t1.stretching, t);
+    d001i.stretching = lerp(d001.stretching, d001t1.stretching, t);
+    d101i.stretching = lerp(d101.stretching, d101t1.stretching, t);
+    d011i.stretching = lerp(d011.stretching, d011t1.stretching, t);
+    d111i.stretching = lerp(d111.stretching, d111t1.stretching, t);
+    
+    d000i.compression = lerp(d000.compression, d000t1.compression, t);
+    d100i.compression = lerp(d100.compression, d100t1.compression, t);
+    d010i.compression = lerp(d010.compression, d010t1.compression, t);
+    d110i.compression = lerp(d110.compression, d110t1.compression, t);
+    d001i.compression = lerp(d001.compression, d001t1.compression, t);
+    d101i.compression = lerp(d101.compression, d101t1.compression, t);
+    d011i.compression = lerp(d011.compression, d011t1.compression, t);
+    d111i.compression = lerp(d111.compression, d111t1.compression, t);
+    
+    FieldData d00 = d000i;
+    d00.velocity = lerp(d000i.velocity, d100i.velocity, fx);
+    d00.pressure = lerp(d000i.pressure, d100i.pressure, fx);
+    d00.vorticity = lerp(d000i.vorticity, d100i.vorticity, fx);
+    d00.lyapunov = lerp(d000i.lyapunov, d100i.lyapunov, fx);
+    d00.ftle = lerp(d000i.ftle, d100i.ftle, fx);
+    d00.stretching = lerp(d000i.stretching, d100i.stretching, fx);
+    d00.compression = lerp(d000i.compression, d100i.compression, fx);
+    
+    FieldData d10 = d010i;
+    d10.velocity = lerp(d010i.velocity, d110i.velocity, fx);
+    d10.pressure = lerp(d010i.pressure, d110i.pressure, fx);
+    d10.vorticity = lerp(d010i.vorticity, d110i.vorticity, fx);
+    d10.lyapunov = lerp(d010i.lyapunov, d110i.lyapunov, fx);
+    d10.ftle = lerp(d010i.ftle, d110i.ftle, fx);
+    d10.stretching = lerp(d010i.stretching, d110i.stretching, fx);
+    d10.compression = lerp(d010i.compression, d110i.compression, fx);
+    
+    FieldData d01 = d001i;
+    d01.velocity = lerp(d001i.velocity, d101i.velocity, fx);
+    d01.pressure = lerp(d001i.pressure, d101i.pressure, fx);
+    d01.vorticity = lerp(d001i.vorticity, d101i.vorticity, fx);
+    d01.lyapunov = lerp(d001i.lyapunov, d101i.lyapunov, fx);
+    d01.ftle = lerp(d001i.ftle, d101i.ftle, fx);
+    d01.stretching = lerp(d001i.stretching, d101i.stretching, fx);
+    d01.compression = lerp(d001i.compression, d101i.compression, fx);
+    
+    FieldData d11 = d011i;
+    d11.velocity = lerp(d011i.velocity, d111i.velocity, fx);
+    d11.pressure = lerp(d011i.pressure, d111i.pressure, fx);
+    d11.vorticity = lerp(d011i.vorticity, d111i.vorticity, fx);
+    d11.lyapunov = lerp(d011i.lyapunov, d111i.lyapunov, fx);
+    d11.ftle = lerp(d011i.ftle, d111i.ftle, fx);
+    d11.stretching = lerp(d011i.stretching, d111i.stretching, fx);
+    d11.compression = lerp(d011i.compression, d111i.compression, fx);
+    
+    FieldData d0 = d00;
+    d0.velocity = lerp(d00.velocity, d10.velocity, fy);
+    d0.pressure = lerp(d00.pressure, d10.pressure, fy);
+    d0.vorticity = lerp(d00.vorticity, d10.vorticity, fy);
+    d0.lyapunov = lerp(d00.lyapunov, d10.lyapunov, fy);
+    d0.ftle = lerp(d00.ftle, d10.ftle, fy);
+    d0.stretching = lerp(d00.stretching, d10.stretching, fy);
+    d0.compression = lerp(d00.compression, d10.compression, fy);
+    
+    FieldData d1 = d01;
+    d1.velocity = lerp(d01.velocity, d11.velocity, fy);
+    d1.pressure = lerp(d01.pressure, d11.pressure, fy);
+    d1.vorticity = lerp(d01.vorticity, d11.vorticity, fy);
+    d1.lyapunov = lerp(d01.lyapunov, d11.lyapunov, fy);
+    d1.ftle = lerp(d01.ftle, d11.ftle, fy);
+    d1.stretching = lerp(d01.stretching, d11.stretching, fy);
+    d1.compression = lerp(d01.compression, d11.compression, fy);
+    
+    FieldData result = d0;
+    result.velocity = lerp(d0.velocity, d1.velocity, fz);
+    result.pressure = lerp(d0.pressure, d1.pressure, fz);
+    result.vorticity = lerp(d0.vorticity, d1.vorticity, fz);
+    result.lyapunov = lerp(d0.lyapunov, d1.lyapunov, fz);
+    result.ftle = lerp(d0.ftle, d1.ftle, fz);
+    result.stretching = lerp(d0.stretching, d1.stretching, fz);
+    result.compression = lerp(d0.compression, d1.compression, fz);
+    
+    return result;
+}
+
+float3 SampleVelocity(float3 pos, float time)
+{
+    FieldData data = SampleFieldData(pos, time);
+    float3 vel = data.velocity;
+    
+    if (IntegrationDirection == 1)
+    {
+        vel = -vel;
+    }
+    
+    return vel;
+}
+
+float SampleScalar(float3 pos, float time, int fieldType)
+{
+    FieldData data = SampleFieldData(pos, time);
+    
+    switch (fieldType)
+    {
+        case 0: return length(data.velocity);
+        case 1: return data.vorticity;
+        case 2: return data.pressure;
+        case 3: return data.lyapunov;
+        case 4: return data.ftle;
+        case 5: return data.stretching;
+        case 6: return data.compression;
+        default: return length(data.velocity);
+    }
+}
+
+bool IsInsideBounds(float3 pos)
+{
+    return pos.x >= FieldMinBounds.x && pos.x <= FieldMinBounds.x + FieldDimensions.x * FieldCellSize.x &&
+           pos.y >= FieldMinBounds.y && pos.y <= FieldMinBounds.y + FieldDimensions.y * FieldCellSize.y &&
+           pos.z >= FieldMinBounds.z && pos.z <= FieldMinBounds.z + FieldDimensions.z * FieldCellSize.z;
+}
+
+float3 IntegrateRK45Step(float3 pos, float time, float dt, out float error)
+{
+    float3 k[6];
+    
+    k[0] = SampleVelocity(pos, time);
+    
+    [unroll]
+    for (int stage = 1; stage < 6; stage++)
+    {
+        float3 stagePos = pos;
+        [unroll]
+        for (int j = 0; j < stage; j++)
+        {
+            stagePos += B[stage - 1][j] * k[j] * dt;
+        }
+        float stageTime = time + A[stage] * dt;
+        k[stage] = SampleVelocity(stagePos, stageTime);
+    }
+    
+    float3 newPos4 = pos;
+    float3 newPos5 = pos;
+    
+    [unroll]
+    for (int i = 0; i < 6; i++)
+    {
+        newPos4 += C4[i] * k[i] * dt;
+        newPos5 += C5[i] * k[i] * dt;
+    }
+    
+    error = distance(newPos4, newPos5);
+    
+    return newPos5;
+}
+
+[numthreads(THREADS_PER_GROUP, 1, 1)]
+void IntegrateParticles(uint3 id : SV_DispatchThreadID)
+{
+    int idx = id.x;
+    
+    Particle p = Particles[idx];
+    
+    if (p.isAlive == 0) return;
+    
+    float remainingTime = DeltaTime;
+    float stepSize = clamp(p.stepSize, MinStepSize, MaxStepSize);
+    float dirSign = IntegrationDirection == 0 ? 1.0f : -1.0f;
+    
+    int steps = 0;
+    float totalError = 0;
+    
+    while (remainingTime > 1e-6f && steps < MAX_STEPS)
+    {
+        if (!IsInsideBounds(p.position))
+        {
+            p.isAlive = 0;
+            break;
+        }
+        
+        float currentStep = min(stepSize, remainingTime);
+        float stepError;
+        
+        float3 newPos = IntegrateRK45Step(p.position, p.time, currentStep * dirSign, stepError);
+        
+        p.time += currentStep * dirSign;
+        p.position = newPos;
+        p.velocity = SampleVelocity(p.position, p.time);
+        p.scalarValue = SampleScalar(p.position, p.time, ColorFieldType);
+        
+        remainingTime -= currentStep;
+        totalError += stepError;
+        steps++;
+        
+        if (stepError > 0)
+        {
+            float scale = 0.9f * pow(max(Tolerance / stepError, 1e-10f), 0.2f);
+            scale = clamp(scale, 0.2f, 10.0f);
+            stepSize = clamp(stepSize * scale, MinStepSize, MaxStepSize);
+        }
+        else
+        {
+            stepSize = clamp(stepSize * 1.5f, MinStepSize, MaxStepSize);
+        }
+        
+        int trailCount = TrailCounts[idx];
+        if (trailCount < MaxTrailLength)
+        {
+            int trailIdx = idx * MaxTrailLength + trailCount;
+            TrailPositions[trailIdx] = p.position;
+            TrailTimes[trailIdx] = p.time;
+            TrailScalars[trailIdx] = p.scalarValue;
+            TrailCounts[idx] = trailCount + 1;
+        }
+        else
+        {
+            int baseIdx = idx * MaxTrailLength;
+            for (int i = 0; i < MaxTrailLength - 1; i++)
+            {
+                TrailPositions[baseIdx + i] = TrailPositions[baseIdx + i + 1];
+                TrailTimes[baseIdx + i] = TrailTimes[baseIdx + i + 1];
+                TrailScalars[baseIdx + i] = TrailScalars[baseIdx + i + 1];
+            }
+            int lastIdx = baseIdx + MaxTrailLength - 1;
+            TrailPositions[lastIdx] = p.position;
+            TrailTimes[lastIdx] = p.time;
+            TrailScalars[lastIdx] = p.scalarValue;
+        }
+    }
+    
+    p.stepSize = stepSize;
+    Particles[idx] = p;
+}
+
+[numthreads(THREADS_PER_GROUP, 1, 1)]
+void IntegrateParticlesBatch(uint3 id : SV_DispatchThreadID)
+{
+    int baseIdx = id.x * 4;
+    
+    Particle particles[4];
+    
+    [unroll]
+    for (int i = 0; i < 4; i++)
+    {
+        particles[i] = Particles[baseIdx + i];
+    }
+    
+    float stepSizes[4];
+    [unroll]
+    for (int i = 0; i < 4; i++)
+    {
+        stepSizes[i] = clamp(particles[i].stepSize, MinStepSize, MaxStepSize);
+    }
+    
+    float remainingTime = DeltaTime;
+    float dirSign = IntegrationDirection == 0 ? 1.0f : -1.0f;
+    
+    int steps = 0;
+    while (remainingTime > 1e-6f && steps < MAX_STEPS)
+    {
+        float minStep = stepSizes[0];
+        [unroll]
+        for (int i = 1; i < 4; i++)
+        {
+            minStep = min(minStep, stepSizes[i]);
+        }
+        
+        float currentStep = min(minStep, remainingTime);
+        
+        [unroll]
+        for (int i = 0; i < 4; i++)
+        {
+            if (particles[i].isAlive == 0) continue;
+            if (!IsInsideBounds(particles[i].position))
+            {
+                particles[i].isAlive = 0;
+                continue;
+            }
+            
+            float stepError;
+            float3 newPos = IntegrateRK45Step(particles[i].position, particles[i].time, currentStep * dirSign, stepError);
+            
+            particles[i].time += currentStep * dirSign;
+            particles[i].position = newPos;
+            particles[i].velocity = SampleVelocity(particles[i].position, particles[i].time);
+            particles[i].scalarValue = SampleScalar(particles[i].position, particles[i].time, ColorFieldType);
+            
+            if (stepError > 0)
+            {
+                float scale = 0.9f * pow(max(Tolerance / stepError, 1e-10f), 0.2f);
+                scale = clamp(scale, 0.2f, 10.0f);
+                stepSizes[i] = clamp(stepSizes[i] * scale, MinStepSize, MaxStepSize);
+            }
+            else
+            {
+                stepSizes[i] = clamp(stepSizes[i] * 1.5f, MinStepSize, MaxStepSize);
+            }
+            
+            int trailCount = TrailCounts[baseIdx + i];
+            if (trailCount < MaxTrailLength)
+            {
+                int trailIdx = (baseIdx + i) * MaxTrailLength + trailCount;
+                TrailPositions[trailIdx] = particles[i].position;
+                TrailTimes[trailIdx] = particles[i].time;
+                TrailScalars[trailIdx] = particles[i].scalarValue;
+                TrailCounts[baseIdx + i] = trailCount + 1;
+            }
+            else
+            {
+                int baseTrailIdx = (baseIdx + i) * MaxTrailLength;
+                for (int j = 0; j < MaxTrailLength - 1; j++)
+                {
+                    TrailPositions[baseTrailIdx + j] = TrailPositions[baseTrailIdx + j + 1];
+                    TrailTimes[baseTrailIdx + j] = TrailTimes[baseTrailIdx + j + 1];
+                    TrailScalars[baseTrailIdx + j] = TrailScalars[baseTrailIdx + j + 1];
+                }
+                int lastIdx = baseTrailIdx + MaxTrailLength - 1;
+                TrailPositions[lastIdx] = particles[i].position;
+                TrailTimes[lastIdx] = particles[i].time;
+                TrailScalars[lastIdx] = particles[i].scalarValue;
+            }
+            
+            particles[i].stepSize = stepSizes[i];
+        }
+        
+        remainingTime -= currentStep;
+        steps++;
+    }
+    
+    [unroll]
+    for (int i = 0; i < 4; i++)
+    {
+        Particles[baseIdx + i] = particles[i];
+    }
+}
+
+[numthreads(THREADS_PER_GROUP, 1, 1)]
+void ComputeFTLEGrid(uint3 id : SV_DispatchThreadID)
+{
+    int idx = id.x;
+    int gridSize = FieldGridSize;
+    
+    if (idx >= gridSize * gridSize * gridSize) return;
+    
+    int x = idx % gridSize;
+    int y = (idx / gridSize) % gridSize;
+    int z = idx / (gridSize * gridSize);
+    
+    float3 pos = float3(
+        FieldMinBounds.x + x * FieldCellSize.x * (FieldDimensions.x / (float)(gridSize - 1)),
+        FieldMinBounds.y + y * FieldCellSize.y * (FieldDimensions.y / (float)(gridSize - 1)),
+        FieldMinBounds.z + z * FieldCellSize.z * (FieldDimensions.z / (float)(gridSize - 1))
+    );
+    
+    float3 dx = float3(PerturbationSize, 0, 0);
+    float3 dy = float3(0, PerturbationSize, 0);
+    float3 dz = float3(0, 0, PerturbationSize);
+    
+    float t = SimulationTime;
+    float T = IntegrationTime;
+    
+    float3 finalPos = pos;
+    float3 finalX = pos + dx;
+    float3 finalY = pos + dy;
+    float3 finalZ = pos + dz;
+    
+    float currentTime = t;
+    float remaining = T;
+    float step = 0.01f;
+    
+    while (remaining > 0)
+    {
+        float dt = min(step, remaining);
+        float3 k1 = SampleVelocity(finalPos, currentTime);
+        float3 k1x = SampleVelocity(finalX, currentTime);
+        float3 k1y = SampleVelocity(finalY, currentTime);
+        float3 k1z = SampleVelocity(finalZ, currentTime);
+        
+        finalPos += k1 * dt;
+        finalX += k1x * dt;
+        finalY += k1y * dt;
+        finalZ += k1z * dt;
+        
+        currentTime += dt;
+        remaining -= dt;
+    }
+    
+    float3 gradX = (finalX - finalPos) / PerturbationSize;
+    float3 gradY = (finalY - finalPos) / PerturbationSize;
+    float3 gradZ = (finalZ - finalPos) / PerturbationSize;
+    
+    float3x3 C;
+    C[0] = float3(dot(gradX, gradX), dot(gradX, gradY), dot(gradX, gradZ));
+    C[1] = float3(dot(gradY, gradX), dot(gradY, gradY), dot(gradY, gradZ));
+    C[2] = float3(dot(gradZ, gradX), dot(gradZ, gradY), dot(gradZ, gradZ));
+    
+    float trace = C[0].x + C[1].y + C[2].z;
+    float det = determinant(C);
+    float Q = (trace * trace - (C[0].x * C[0].x + C[1].y * C[1].y + C[2].z * C[2].z)) / 3.0f;
+    float R = (trace * Q / 2.0f - det) / 2.0f;
+    
+    float theta = acos(clamp(R / sqrt(Q * Q * Q), -1.0f, 1.0f));
+    float sqrtQ = sqrt(max(Q, 0.0f));
+    
+    float lambda1 = trace / 3.0f + 2.0f * sqrtQ * cos(theta / 3.0f);
+    float lambda2 = trace / 3.0f + 2.0f * sqrtQ * cos((theta + 2.0f * 3.14159f) / 3.0f);
+    float lambda3 = trace / 3.0f + 2.0f * sqrtQ * cos((theta + 4.0f * 3.14159f) / 3.0f);
+    
+    float maxLambda = max(max(lambda1, lambda2), lambda3);
+    
+    float ftle = 0.0f;
+    if (maxLambda > 1.0f)
+    {
+        ftle = 0.5f * log(maxLambda) / T;
+    }
+    
+    FTLEField[idx] = ftle;
+}
+
+[numthreads(THREADS_PER_GROUP, 1, 1)]
+void ResetParticles(uint3 id : SV_DispatchThreadID)
+{
+    int idx = id.x;
+    TrailCounts[idx] = 0;
+    
+    Particle p = Particles[idx];
+    p.isAlive = 0;
+    p.position = 0;
+    p.velocity = 0;
+    p.time = 0;
+    p.scalarValue = 0;
+    p.stepSize = 0.01f;
+    Particles[idx] = p;
+}
