@@ -1,0 +1,894 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1400</width>
+    <height>900</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>混沌系统分析器 - Chaos Analyzer</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QHBoxLayout" name="mainLayout">
+    <property name="spacing">
+     <number>6</number>
+    </property>
+    <property name="leftMargin">
+     <number>6</number>
+    </property>
+    <property name="topMargin">
+     <number>6</number>
+    </property>
+    <property name="rightMargin">
+     <number>6</number>
+    </property>
+    <property name="bottomMargin">
+     <number>6</number>
+    </property>
+    <item>
+     <widget class="QWidget" name="controlPanel">
+      <property name="minimumWidth">
+       <number>300</number>
+      </property>
+      <property name="maximumWidth">
+       <number>360</number>
+      </property>
+      <layout class="QVBoxLayout" name="controlLayout">
+       <property name="spacing">
+        <number>8</number>
+       </property>
+       <item>
+        <widget class="QGroupBox" name="systemGroup">
+         <property name="title">
+          <string>系统选择 / System</string>
+         </property>
+         <layout class="QVBoxLayout" name="systemLayout">
+          <item>
+           <widget class="QComboBox" name="systemCombo">
+            <item>
+             <property name="text">
+              <string>Lorenz 系统</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chua 电路</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="solverLayout">
+            <item>
+             <widget class="QLabel" name="solverLabel">
+              <property name="text">
+               <string>求解器:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="solverCombo">
+              <item>
+               <property name="text">
+                <string>RK4 固定步长</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>RK45 自适应步长</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="stepSizeLayout">
+            <item>
+             <widget class="QLabel" name="stepSizeLabel">
+              <property name="text">
+               <string>步长:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="stepSizeSpin">
+              <property name="decimals">
+               <number>6</number>
+              </property>
+              <property name="minimum">
+               <double>1e-06</double>
+              </property>
+              <property name="maximum">
+               <double>0.100000</double>
+              </property>
+              <property name="singleStep">
+               <double>0.001000</double>
+              </property>
+              <property name="value">
+               <double>0.010000</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="speedLayout">
+            <item>
+             <widget class="QLabel" name="speedLabel">
+              <property name="text">
+               <string>速度:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSlider" name="speedSlider">
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>100</number>
+              </property>
+              <property name="value">
+               <number>10</number>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="speedValueLabel">
+              <property name="minimumSize">
+               <size>
+                <width>30</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>10x</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="lorenzGroup">
+         <property name="title">
+          <string>Lorenz 参数</string>
+         </property>
+         <layout class="QVBoxLayout" name="lorenzLayout">
+          <item>
+           <layout class="QHBoxLayout" name="sigmaLayout">
+            <item>
+             <widget class="QLabel" name="sigmaLabel">
+              <property name="text">
+               <string>σ (sigma):</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="sigmaSpin">
+              <property name="decimals">
+               <number>3</number>
+              </property>
+              <property name="minimum">
+               <double>0.100000</double>
+              </property>
+              <property name="maximum">
+               <double>100.000000</double>
+              </property>
+              <property name="singleStep">
+               <double>0.100000</double>
+              </property>
+              <property name="value">
+               <double>10.000000</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="rhoLayout">
+            <item>
+             <widget class="QLabel" name="rhoLabel">
+              <property name="text">
+               <string>ρ (rho):</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="rhoSpin">
+              <property name="decimals">
+               <number>3</number>
+              </property>
+              <property name="minimum">
+               <double>0.100000</double>
+              </property>
+              <property name="maximum">
+               <double>100.000000</double>
+              </property>
+              <property name="singleStep">
+               <double>0.100000</double>
+              </property>
+              <property name="value">
+               <double>28.000000</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="betaLayout">
+            <item>
+             <widget class="QLabel" name="betaLabel">
+              <property name="text">
+               <string>β (beta):</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="betaSpin">
+              <property name="decimals">
+               <number>4</number>
+              </property>
+              <property name="minimum">
+               <double>0.100000</double>
+              </property>
+              <property name="maximum">
+               <double>50.000000</double>
+              </property>
+              <property name="singleStep">
+               <double>0.010000</double>
+              </property>
+              <property name="value">
+               <double>2.666700</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="chuaGroup">
+         <property name="title">
+          <string>Chua 电路参数</string>
+         </property>
+         <layout class="QVBoxLayout" name="chuaLayout">
+          <item>
+           <layout class="QHBoxLayout" name="chuaAlphaLayout">
+            <item>
+             <widget class="QLabel" name="chuaAlphaLabel">
+              <property name="text">
+               <string>α (alpha):</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="chuaAlphaSpin">
+              <property name="decimals">
+               <number>3</number>
+              </property>
+              <property name="minimum">
+               <double>0.100</double>
+              </property>
+              <property name="maximum">
+               <double>50.000</double>
+              </property>
+              <property name="singleStep">
+               <double>0.100</double>
+              </property>
+              <property name="value">
+               <double>9.000</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="chuaBetaLayout">
+            <item>
+             <widget class="QLabel" name="chuaBetaLabel">
+              <property name="text">
+               <string>β (beta):</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="chuaBetaSpin">
+              <property name="decimals">
+               <number>3</number>
+              </property>
+              <property name="minimum">
+               <double>0.100</double>
+              </property>
+              <property name="maximum">
+               <double>50.000</double>
+              </property>
+              <property name="singleStep">
+               <double>0.100</double>
+              </property>
+              <property name="value">
+               <double>14.286</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="chuaM0Layout">
+            <item>
+             <widget class="QLabel" name="m0Label">
+              <property name="text">
+               <string>m0:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="m0Spin">
+              <property name="decimals">
+               <number>4</number>
+              </property>
+              <property name="minimum">
+               <double>-10.0000</double>
+              </property>
+              <property name="maximum">
+               <double>10.0000</double>
+              </property>
+              <property name="singleStep">
+               <double>0.0100</double>
+              </property>
+              <property name="value">
+               <double>-1.1430</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="chuaM1Layout">
+            <item>
+             <widget class="QLabel" name="m1Label">
+              <property name="text">
+               <string>m1:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="m1Spin">
+              <property name="decimals">
+               <number>4</number>
+              </property>
+              <property name="minimum">
+               <double>-10.0000</double>
+              </property>
+              <property name="maximum">
+               <double>10.0000</double>
+              </property>
+              <property name="singleStep">
+               <double>0.0100</double>
+              </property>
+              <property name="value">
+               <double>-0.7140</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="initialGroup">
+         <property name="title">
+          <string>初始状态 / Initial State</string>
+         </property>
+         <layout class="QVBoxLayout" name="initialLayout">
+          <item>
+           <layout class="QHBoxLayout" name="initXLayout">
+            <item>
+             <widget class="QLabel" name="initXLabel">
+              <property name="text">
+               <string>X0:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="initXSpin">
+              <property name="decimals">
+               <number>4</number>
+              </property>
+              <property name="minimum">
+               <double>-100.0000</double>
+              </property>
+              <property name="maximum">
+               <double>100.0000</double>
+              </property>
+              <property name="singleStep">
+               <double>0.1000</double>
+              </property>
+              <property name="value">
+               <double>1.0000</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="initYLayout">
+            <item>
+             <widget class="QLabel" name="initYLabel">
+              <property name="text">
+               <string>Y0:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="initYSpin">
+              <property name="decimals">
+               <number>4</number>
+              </property>
+              <property name="minimum">
+               <double>-100.0000</double>
+              </property>
+              <property name="maximum">
+               <double>100.0000</double>
+              </property>
+              <property name="singleStep">
+               <double>0.1000</double>
+              </property>
+              <property name="value">
+               <double>1.0000</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="initZLayout">
+            <item>
+             <widget class="QLabel" name="initZLabel">
+              <property name="text">
+               <string>Z0:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="initZSpin">
+              <property name="decimals">
+               <number>4</number>
+              </property>
+              <property name="minimum">
+               <double>-100.0000</double>
+              </property>
+              <property name="maximum">
+               <double>100.0000</double>
+              </property>
+              <property name="singleStep">
+               <double>0.1000</double>
+              </property>
+              <property name="value">
+               <double>1.0000</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="displayGroup">
+         <property name="title">
+          <string>显示设置 / Display</string>
+         </property>
+         <layout class="QVBoxLayout" name="displayLayout">
+          <item>
+           <layout class="QHBoxLayout" name="maxPointsLayout">
+            <item>
+             <widget class="QLabel" name="maxPointsLabel">
+              <property name="text">
+               <string>最大点数:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="maxPointsSpin">
+              <property name="minimum">
+               <number>1000</number>
+              </property>
+              <property name="maximum">
+               <number>100000</number>
+              </property>
+              <property name="singleStep">
+               <number>1000</number>
+              </property>
+              <property name="value">
+               <number>20000</number>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="autoRotateCheck">
+            <property name="text">
+             <string>自动旋转 / Auto Rotate</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="showAxesCheck">
+            <property name="text">
+             <string>显示坐标轴 / Show Axes</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="resetViewBtn">
+            <property name="text">
+             <string>重置视角 / Reset View</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="xyGroup">
+         <property name="title">
+          <string>X-Y 模式 / X-Y Mode</string>
+         </property>
+         <layout class="QVBoxLayout" name="xyLayout">
+          <item>
+           <layout class="QHBoxLayout" name="xyChannelLayout">
+            <item>
+             <widget class="QLabel" name="xyModeLabel">
+              <property name="text">
+               <string>通道:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="xyModeCombo">
+              <item>
+               <property name="text">
+                <string>X - Y</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>X - Z</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Y - Z</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="controlGroup">
+         <property name="title">
+          <string>控制 / Controls</string>
+         </property>
+         <layout class="QVBoxLayout" name="buttonLayout">
+          <item>
+           <layout class="QHBoxLayout" name="playLayout">
+            <item>
+             <widget class="QPushButton" name="startBtn">
+              <property name="text">
+               <string>开始 / Start</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="stopBtn">
+              <property name="text">
+               <string>暂停 / Pause</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QPushButton" name="resetBtn">
+            <property name="text">
+             <string>重置 / Reset</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="lyapunovBtn">
+            <property name="text">
+             <string>计算李雅普诺夫指数</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="exportBtn">
+            <property name="text">
+             <string>导出CSV / Export CSV</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="lyapunovGroup">
+         <property name="title">
+          <string>李雅普诺夫指数 / Lyapunov</string>
+         </property>
+         <layout class="QVBoxLayout" name="lyapunovLayout">
+          <item>
+           <widget class="QLabel" name="lyapunovLabel1">
+            <property name="text">
+             <string>λ₁: --</string>
+            </property>
+            <property name="styleSheet">
+             <string>color: #ff6b6b; font-weight: bold;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="lyapunovLabel2">
+            <property name="text">
+             <string>λ₂: --</string>
+            </property>
+            <property name="styleSheet">
+             <string>color: #4ecdc4; font-weight: bold;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="lyapunovLabel3">
+            <property name="text">
+             <string>λ₃: --</string>
+            </property>
+            <property name="styleSheet">
+             <string>color: #45b7d1; font-weight: bold;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="sumLabel">
+            <property name="text">
+             <string>∑λ: --</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="statusGroup">
+         <property name="title">
+          <string>状态 / Status</string>
+         </property>
+         <layout class="QVBoxLayout" name="statusLayout">
+          <item>
+           <widget class="QLabel" name="timeLabel">
+            <property name="text">
+             <string>时间 t: 0.000</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="stateLabel">
+            <property name="text">
+             <string>X: 0.000, Y: 0.000, Z: 0.000</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="pointsLabel">
+            <property name="text">
+             <string>数据点数: 0</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QWidget" name="plotContainer">
+      <layout class="QVBoxLayout" name="plotContainerLayout">
+       <property name="spacing">
+        <number>6</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QWidget" name="topRow">
+         <layout class="QHBoxLayout" name="topRowLayout">
+          <property name="spacing">
+           <number>6</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QWidget" name="phasePlotContainer" native="true">
+            <property name="minimumSize">
+             <size>
+              <width>400</width>
+              <height>350</height>
+             </size>
+            </property>
+            <layout class="QVBoxLayout" name="phasePlotLayout">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QWidget" name="timePlotContainer" native="true">
+            <property name="minimumSize">
+             <size>
+              <width>400</width>
+              <height>350</height>
+             </size>
+            </property>
+            <layout class="QVBoxLayout" name="timePlotLayout">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QWidget" name="bottomRow">
+         <layout class="QHBoxLayout" name="bottomRowLayout">
+          <property name="spacing">
+           <number>6</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QWidget" name="spectrumPlotContainer" native="true">
+            <property name="minimumSize">
+             <size>
+              <width>400</width>
+              <height>250</height>
+             </size>
+            </property>
+            <layout class="QVBoxLayout" name="spectrumPlotLayout">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QWidget" name="xyPlotContainer" native="true">
+            <property name="minimumSize">
+             <size>
+              <width>400</width>
+              <height>250</height>
+             </size>
+            </property>
+            <layout class="QVBoxLayout" name="xyPlotLayout">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
