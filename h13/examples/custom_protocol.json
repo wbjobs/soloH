@@ -1,0 +1,82 @@
+{
+  "name": "CustomIndustrialProtocol",
+  "version": "2.1",
+  "endian": "little",
+  "min_msg_size": 12,
+  "max_msg_size": 1024,
+  "header": [
+    {
+      "name": "magic",
+      "type": "uint32",
+      "value": 3735928559,
+      "mutable": false
+    },
+    {
+      "name": "version",
+      "type": "uint8",
+      "value": 2,
+      "mutable": false
+    },
+    {
+      "name": "flags",
+      "type": "uint8",
+      "min": 0,
+      "max": 255,
+      "mutable": true
+    },
+    {
+      "name": "sequence",
+      "type": "uint32",
+      "min": 0,
+      "max": 4294967295,
+      "mutable": true
+    },
+    {
+      "name": "payload_length",
+      "type": "uint16",
+      "min": 4,
+      "max": 1000,
+      "mutable": true
+    }
+  ],
+  "body": [
+    {
+      "name": "command",
+      "type": "uint16",
+      "enum_values": [1, 2, 3, 4, 5, 10, 20, 100, 200, 255],
+      "mutable": true
+    },
+    {
+      "name": "subcommand",
+      "type": "uint8",
+      "min": 0,
+      "max": 255,
+      "mutable": true
+    },
+    {
+      "name": "status",
+      "type": "uint8",
+      "min": 0,
+      "max": 255,
+      "mutable": true
+    },
+    {
+      "name": "data",
+      "type": "bytes",
+      "is_variable": true,
+      "length_field": "payload_length",
+      "min": 0,
+      "max": 1000,
+      "mutable": true
+    }
+  ],
+  "tail": [
+    {
+      "name": "checksum",
+      "type": "uint32",
+      "is_checksum": true,
+      "checksum_type": "crc32",
+      "mutable": false
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "name": "ModbusLike",
+  "version": "1.0",
+  "endian": "big",
+  "min_msg_size": 8,
+  "max_msg_size": 256,
+  "header": [
+    {
+      "name": "transaction_id",
+      "type": "uint16",
+      "min": 0,
+      "max": 65535,
+      "mutable": true
+    },
+    {
+      "name": "protocol_id",
+      "type": "uint16",
+      "value": 0,
+      "mutable": false
+    },
+    {
+      "name": "length",
+      "type": "uint16",
+      "min": 2,
+      "max": 249,
+      "mutable": true
+    },
+    {
+      "name": "unit_id",
+      "type": "uint8",
+      "min": 0,
+      "max": 255,
+      "mutable": true
+    }
+  ],
+  "body": [
+    {
+      "name": "function_code",
+      "type": "uint8",
+      "enum_values": [1, 2, 3, 4, 5, 6, 15, 16],
+      "mutable": true
+    },
+    {
+      "name": "start_address",
+      "type": "uint16",
+      "min": 0,
+      "max": 65535,
+      "mutable": true
+    },
+    {
+      "name": "quantity",
+      "type": "uint16",
+      "min": 1,
+      "max": 2000,
+      "mutable": true
+    }
+  ],
+  "tail": [
+    {
+      "name": "crc",
+      "type": "uint16",
+      "is_checksum": true,
+      "checksum_type": "modbus_rtu",
+      "checksum_of": ["transaction_id", "protocol_id", "length", "unit_id", "function_code", "start_address", "quantity"],
+      "mutable": false
+    }
+  ]
+}
