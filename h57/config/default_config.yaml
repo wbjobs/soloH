@@ -1,0 +1,111 @@
+
+preprocessing:
+  denoise_method: 'bilateral'
+  denoise_strength: 5
+  contrast_method: 'clahe'
+  clahe_clip_limit: 2.0
+  gamma: 1.0
+  remove_background: true
+  background_kernel_size: 51
+  speckle_filter: true
+  speckle_sigma: 1.0
+
+detection:
+  min_wavelength: 10.0
+  max_wavelength: 500.0
+  gabor_sigma: 3.0
+  gabor_frequencies: [0.05, 0.1, 0.15, 0.2]
+  direction_search_range: 30.0
+  peak_prominence: 0.1
+  min_wave_length_pixels: 50
+
+wavefront:
+  canny_low: 30
+  canny_high: 100
+  edge_thinning: true
+  min_edge_length: 20
+  max_edge_gap: 5
+  fit_polynomial: true
+  polynomial_order: 2
+
+inversion:
+  water_depth: 100.0
+  upper_layer_density: 1024.0
+  lower_layer_density: 1027.0
+  upper_layer_thickness: 20.0
+  gravity: 9.81
+  wind_speed: 5.0
+  wind_direction: 0.0
+  modulation_transfer_function: 0.3
+  radar_frequency: 5.3e9
+  incidence_angle: 23.0
+
+tracking:
+  max_distance: 50.0
+  direction_tolerance: 30.0
+  wavelength_tolerance: 0.5
+  min_track_length: 2
+  use_hungarian: true
+  distance_weight: 0.5
+  direction_weight: 0.3
+  wavelength_weight: 0.2
+
+kml_export:
+  export_wave_points: true
+  export_wavefronts: true
+  export_direction_arrows: true
+  wave_point_size: 5.0
+  wavefront_width: 3.0
+  confidence_color_scale: true
+  altitude_mode: 'clampToGround'
+  name_prefix: 'InternalWave'
+
+cnn_detection:
+  use_cnn: false
+  model_architecture: 'unet'
+  pretrained_weights: null
+  input_channels: 1
+  num_classes: 2
+  confidence_threshold: 0.5
+  nms_threshold: 0.3
+  min_box_size: 16
+  stride: 16
+  use_gpu: true
+  batch_size: 1
+  use_numpy_fallback: true
+
+ts_inversion:
+  invert_ts: false
+  surface_temperature: 25.0
+  surface_salinity: 35.0
+  bottom_temperature: 5.0
+  bottom_salinity: 34.5
+  thermocline_depth: 50.0
+  thermocline_strength: 0.15
+  num_depth_levels: 50
+  max_depth: 200.0
+  density_ratio: 0.003
+  use_climatology: true
+  region: 'sargasso_sea'
+  assimilation_weight: 0.3
+  smooth_profile: true
+  smooth_sigma: 2.0
+
+wave_breaking:
+  simulate_breaking: false
+  breaking_threshold_richardson: 0.25
+  breaking_threshold_amp_depth: 0.3
+  breaking_threshold_steepness: 0.1
+  surface_tension: 0.074
+  kinematic_viscosity: 1.5e-6
+  von_karman_constant: 0.41
+  charnock_constant: 0.0185
+  gravity: 9.81
+  radar_frequency: 5.3e9
+  incidence_angle: 23.0
+  wind_drag_coefficient: 1.3e-3
+  simulate_turbulence: true
+  turbulence_model: 'k_epsilon'
+  roughness_model: 'cmog'
+  min_breaking_probability: 0.05
+  max_breaking_probability: 0.95

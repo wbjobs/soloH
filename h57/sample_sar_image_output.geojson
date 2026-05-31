@@ -1,0 +1,221 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -117.99715,
+          33.99365
+        ]
+      },
+      "properties": {
+        "type": "wave_center",
+        "wave_id": 1,
+        "direction": 45.0,
+        "wavelength": 50.0,
+        "spacing": 50.0,
+        "contrast": 0.3201438784599304,
+        "detection_confidence": 0.696602128118684,
+        "amplitude": 2.538243616581422,
+        "half_width": 113.92528057273975,
+        "phase_speed": 0.22059563364846782,
+        "wave_energy": 4726.3555487017575,
+        "inversion_confidence": 0.7342224712596362
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -117.99275,
+          33.98815
+        ]
+      },
+      "properties": {
+        "type": "wave_center",
+        "wave_id": 3,
+        "direction": 45.0,
+        "wavelength": 50.0,
+        "spacing": 50.0,
+        "contrast": 0.2374100685119629,
+        "detection_confidence": 0.5941047857049853,
+        "amplitude": 2.2221109791314646,
+        "half_width": 113.92528057273975,
+        "phase_speed": 0.22059563364846782,
+        "wave_energy": 3622.3572029135694,
+        "inversion_confidence": 0.6672312306822278
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -117.98345,
+          33.97785
+        ]
+      },
+      "properties": {
+        "type": "wave_center",
+        "wave_id": 7,
+        "direction": 45.0,
+        "wavelength": 50.0,
+        "spacing": 50.0,
+        "contrast": 0.32733815908432007,
+        "detection_confidence": 0.5783959781183512,
+        "amplitude": 2.565733549775285,
+        "half_width": 113.92528057273975,
+        "phase_speed": 0.22059563364846782,
+        "wave_energy": 4829.285600434037,
+        "inversion_confidence": 0.7082680740717479
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -117.98835,
+          33.98275
+        ]
+      },
+      "properties": {
+        "type": "wave_center",
+        "wave_id": 5,
+        "direction": 45.0,
+        "wavelength": 50.0,
+        "spacing": 50.0,
+        "contrast": 0.28776979446411133,
+        "detection_confidence": 0.5471209165989421,
+        "amplitude": 2.414539600471667,
+        "half_width": 113.92528057273975,
+        "phase_speed": 0.22059563364846782,
+        "wave_energy": 4276.893628759398,
+        "inversion_confidence": 0.6806651263817912
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -117.97845,
+          33.97835
+        ]
+      },
+      "properties": {
+        "type": "wave_center",
+        "wave_id": 8,
+        "direction": 45.0,
+        "wavelength": 50.0,
+        "spacing": 50.0,
+        "contrast": 0.2482014298439026,
+        "detection_confidence": 0.3741806223843014,
+        "amplitude": 2.2633456511680494,
+        "half_width": 113.92528057273975,
+        "phase_speed": 0.22059563364846782,
+        "wave_energy": 3758.041312939565,
+        "inversion_confidence": 0.6176458705180267
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -117.99595,
+          33.98985
+        ]
+      },
+      "properties": {
+        "type": "wave_center",
+        "wave_id": 2,
+        "direction": 45.0,
+        "wavelength": 50.0,
+        "spacing": 50.0,
+        "contrast": 0.23021584749221802,
+        "detection_confidence": 0.33160974126076326,
+        "amplitude": 2.194621273691811,
+        "half_width": 113.92528057273975,
+        "phase_speed": 0.22059563364846782,
+        "wave_energy": 3533.287307424127,
+        "inversion_confidence": 0.5980103590612998
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -117.99145,
+          33.98465
+        ]
+      },
+      "properties": {
+        "type": "wave_center",
+        "wave_id": 4,
+        "direction": 45.0,
+        "wavelength": 50.0,
+        "spacing": 50.0,
+        "contrast": 0.25539571046829224,
+        "detection_confidence": 0.2665568023076048,
+        "amplitude": 2.2908355843619126,
+        "half_width": 113.92528057273975,
+        "phase_speed": 0.22059563364846782,
+        "wave_energy": 3849.883830038027,
+        "inversion_confidence": 0.5943370558110473
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -117.99885,
+          33.99695
+        ]
+      },
+      "properties": {
+        "type": "wave_center",
+        "wave_id": 0,
+        "direction": 45.0,
+        "wavelength": 50.0,
+        "spacing": 50.0,
+        "contrast": 0.269784152507782,
+        "detection_confidence": 0.18689270818867953,
+        "amplitude": 2.345814995241219,
+        "half_width": 113.92528057273975,
+        "phase_speed": 0.22059563364846782,
+        "wave_energy": 4036.8935733985504,
+        "inversion_confidence": 0.5816152533010609
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -117.98675,
+          33.97955
+        ]
+      },
+      "properties": {
+        "type": "wave_center",
+        "wave_id": 6,
+        "direction": 45.0,
+        "wavelength": 50.0,
+        "spacing": 50.0,
+        "contrast": 0.19064748287200928,
+        "detection_confidence": 0.10530760009714868,
+        "amplitude": 2.0434273243881935,
+        "half_width": 113.92528057273975,
+        "phase_speed": 0.22059563364846782,
+        "wave_energy": 3063.219913423808,
+        "inversion_confidence": 0.5216506414602918
+      }
+    }
+  ]
+}
