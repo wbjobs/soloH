@@ -1,0 +1,185 @@
+{
+  "fingers": {
+    "散": {
+      "name": "散音",
+      "type": "right",
+      "description": "右手弹空弦"
+    },
+    "勾": {
+      "name": "勾",
+      "type": "right",
+      "description": "右指向内弹"
+    },
+    "挑": {
+      "name": "挑",
+      "type": "right",
+      "description": "右指向外弹"
+    },
+    "抹": {
+      "name": "抹",
+      "type": "right",
+      "description": "右指向内弹"
+    },
+    "剔": {
+      "name": "剔",
+      "type": "right",
+      "description": "右指向外弹"
+    },
+    "打": {
+      "name": "打",
+      "type": "right",
+      "description": "右指向内弹"
+    },
+    "摘": {
+      "name": "摘",
+      "type": "right",
+      "description": "右指向外弹"
+    },
+    "托": {
+      "name": "托",
+      "type": "right",
+      "description": "右指向外弹"
+    },
+    "擘": {
+      "name": "擘",
+      "type": "right",
+      "description": "右指向内弹"
+    },
+    "按": {
+      "name": "按音",
+      "type": "left",
+      "description": "左手按弦"
+    },
+    "泛": {
+      "name": "泛音",
+      "type": "left",
+      "description": "左手轻触徽位"
+    }
+  },
+  "strings": {
+    "一": {
+      "name": "一弦",
+      "open_note": 60,
+      "tuning": "C4"
+    },
+    "二": {
+      "name": "二弦",
+      "open_note": 62,
+      "tuning": "D4"
+    },
+    "三": {
+      "name": "三弦",
+      "open_note": 64,
+      "tuning": "E4"
+    },
+    "四": {
+      "name": "四弦",
+      "open_note": 65,
+      "tuning": "F4"
+    },
+    "五": {
+      "name": "五弦",
+      "open_note": 67,
+      "tuning": "G4"
+    },
+    "六": {
+      "name": "六弦",
+      "open_note": 69,
+      "tuning": "A4"
+    },
+    "七": {
+      "name": "七弦",
+      "open_note": 71,
+      "tuning": "B4"
+    }
+  },
+  "hui_positions": {
+    "一徽": {
+      "position": 1,
+      "ratio": 0.0625,
+      "semitones": 36
+    },
+    "二徽": {
+      "position": 2,
+      "ratio": 0.1111,
+      "semitones": 31
+    },
+    "三徽": {
+      "position": 3,
+      "ratio": 0.1667,
+      "semitones": 27
+    },
+    "四徽": {
+      "position": 4,
+      "ratio": 0.25,
+      "semitones": 24
+    },
+    "五徽": {
+      "position": 5,
+      "ratio": 0.3333,
+      "semitones": 19
+    },
+    "六徽": {
+      "position": 6,
+      "ratio": 0.4,
+      "semitones": 16
+    },
+    "七徽": {
+      "position": 7,
+      "ratio": 0.5,
+      "semitones": 12
+    },
+    "七分六": {
+      "position": 7.6,
+      "ratio": 0.5625,
+      "semitones": 10
+    },
+    "八徽": {
+      "position": 8,
+      "ratio": 0.6,
+      "semitones": 9
+    },
+    "九徽": {
+      "position": 9,
+      "ratio": 0.6667,
+      "semitones": 7
+    },
+    "十徽": {
+      "position": 10,
+      "ratio": 0.75,
+      "semitones": 5
+    },
+    "十一徽": {
+      "position": 11,
+      "ratio": 0.8333,
+      "semitones": 4
+    },
+    "十二徽": {
+      "position": 12,
+      "ratio": 0.8889,
+      "semitones": 2
+    },
+    "十三徽": {
+      "position": 13,
+      "ratio": 0.9375,
+      "semitones": 1
+    }
+  },
+  "gongche_map": {
+    "C4": "合",
+    "D4": "四",
+    "E4": "一",
+    "F4": "上",
+    "G4": "尺",
+    "A4": "工",
+    "B4": "凡",
+    "C5": "六",
+    "D5": "五",
+    "E5": "乙",
+    "F5": "仩",
+    "G5": "伬",
+    "A5": "仜",
+    "B5": "匚",
+    "C6": "伍"
+  }
+}

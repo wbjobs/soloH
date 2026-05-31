@@ -1,0 +1,66 @@
+{
+  "string_mapping": {
+    "一": {"string": 1, "note": "C"},
+    "二": {"string": 2, "note": "D"},
+    "三": {"string": 3, "note": "E"},
+    "四": {"string": 4, "note": "F"},
+    "五": {"string": 5, "note": "G"},
+    "六": {"string": 6, "note": "A"},
+    "七": {"string": 7, "note": "B"}
+  },
+  "hui_mapping": {
+    "一": 1, "二": 2, "三": 3, "四": 4, "五": 5,
+    "六": 6, "七": 7, "八": 8, "九": 9, "十": 10,
+    "十一": 11, "十二": 12, "十三": 13,
+    "半": 0.5, "少": 0.25
+  },
+  "technique_mapping": {
+    "散": {"code": "sanyin", "name": "散音", "description": "空弦弹拨"},
+    "勾": {"code": "gou", "name": "勾", "description": "右手中指向内弹弦"},
+    "剔": {"code": "ti", "name": "剔", "description": "右手中指向外弹弦"},
+    "抹": {"code": "mo", "name": "抹", "description": "右手食指向内弹弦"},
+    "挑": {"code": "tiao", "name": "挑", "description": "右手食指向外弹弦"},
+    "托": {"code": "tuo", "name": "托", "description": "右手大指向外弹弦"},
+    "擘": {"code": "bo", "name": "擘", "description": "右手大指向内弹弦"},
+    "打": {"code": "da", "name": "打", "description": "右手无名指向内弹弦"},
+    "摘": {"code": "zhai", "name": "摘", "description": "右手无名指向外弹弦"},
+    "按": {"code": "anyin", "name": "按音", "description": "左手按弦，右手弹拨"},
+    "泛": {"code": "fanyin", "name": "泛音", "description": "左手轻触徽位，右手弹拨"},
+    "撮": {"code": "cuo", "name": "撮", "description": "右手同时弹两弦"},
+    "泼": {"code": "po", "name": "泼", "description": "右手食中无名三指并拢向外弹"},
+    "剌": {"code": "la", "name": "剌", "description": "右手食中无名三指并拢向内弹"},
+    "打圆": {"code": "dayuan", "name": "打圆", "description": "右手两指交替弹弦形成的装饰音"},
+    "撞": {"code": "zhuang", "name": "撞", "description": "左手按弦得音后快速撞向高音再回原位"},
+    "逗": {"code": "dou", "name": "逗", "description": "左手按弦得音后快速向上逗起"},
+    "吟": {"code": "yin", "name": "吟", "description": "左手按弦左右快速摇动"},
+    "猱": {"code": "nao", "name": "猱", "description": "左手按弦左右大幅摇动"},
+    "绰": {"code": "chuo", "name": "绰", "description": "左手从下向上滑向本位"},
+    "注": {"code": "zhu", "name": "注", "description": "左手从上向下滑向本位"},
+    "上": {"code": "shang", "name": "上滑", "description": "左手按弦向上滑"},
+    "下": {"code": "xia", "name": "下滑", "description": "左手按弦向下滑"},
+    "进": {"code": "jin", "name": "进", "description": "左手按弦向上移位"},
+    "退": {"code": "tui", "name": "退", "description": "左手按弦向下移位"},
+    "复": {"code": "fu", "name": "复", "description": "左手回到原位"}
+  },
+  "gongche_mapping": {
+    "C": {"gongche": "合", "pinyin": "he"},
+    "D": {"gongche": "四", "pinyin": "si"},
+    "E": {"gongche": "一", "pinyin": "yi"},
+    "F": {"gongche": "上", "pinyin": "shang"},
+    "G": {"gongche": "尺", "pinyin": "chi"},
+    "A": {"gongche": "工", "pinyin": "gong"},
+    "B": {"gongche": "凡", "pinyin": "fan"},
+    "C2": {"gongche": "六", "pinyin": "liu"},
+    "D2": {"gongche": "五", "pinyin": "wu"},
+    "E2": {"gongche": "乙", "pinyin": "yi"}
+  },
+  "octave_markers": {
+    "low": "下",
+    "high": "高",
+    "normal": ""
+  },
+  "midi_reference": {
+    "C4": 60,
+    "A4": 440
+  }
+}
