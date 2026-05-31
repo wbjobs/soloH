@@ -1,0 +1,29 @@
+audio:
+  sample_rate: 16000
+  n_fft: 512
+  hop_length: 160
+  win_length: 400
+  n_mels: 80
+  f_min: 0
+  f_max: 8000
+  min_duration: 2.0
+
+embedding:
+  model_type: ecapa  # xvector or ecapa
+  embedding_dim: 192
+  pretrained: false
+
+spoofing:
+  pitch_shift_range: [-4, 4]
+  time_stretch_range: [0.7, 1.3]
+  phase_vocoder_steps: 5
+
+anti_spoofing:
+  phase_residual_threshold: 0.3
+  spectral_consistency_threshold: 0.7
+  cwt_wavelet: morlet
+  cwt_scales: 32
+
+verification:
+  threshold: 0.5
+  scoring: cosine  # cosine or l2
