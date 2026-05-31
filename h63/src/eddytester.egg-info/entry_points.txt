@@ -1,0 +1,2 @@
+[console_scripts]
+eddytester = eddytester.cli:cli

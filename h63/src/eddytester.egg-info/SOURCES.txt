@@ -1,0 +1,17 @@
+setup.py
+src/eddytester/__init__.py
+src/eddytester/annotation.py
+src/eddytester/cli.py
+src/eddytester/config.py
+src/eddytester/data_io.py
+src/eddytester/features.py
+src/eddytester/identification.py
+src/eddytester/preprocessing.py
+src/eddytester/reporting.py
+src/eddytester/simulation.py
+src/eddytester.egg-info/PKG-INFO
+src/eddytester.egg-info/SOURCES.txt
+src/eddytester.egg-info/dependency_links.txt
+src/eddytester.egg-info/entry_points.txt
+src/eddytester.egg-info/requires.txt
+src/eddytester.egg-info/top_level.txt
