@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>麦克风阵列声源定位系统</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <div class="logo">
+        <div class="logo-icon"></div>
+        <h1>麦克风阵列声源定位系统</h1>
+      </div>
+      <div class="header-stats">
+        <div class="stat-item">
+          <span class="stat-label">算法</span>
+          <span class="stat-value" id="current-algorithm">DAS</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">通道数</span>
+          <span class="stat-value" id="current-channels">16</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">FPS</span>
+          <span class="stat-value" id="current-fps">0</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">处理时间</span>
+          <span class="stat-value" id="current-latency">0ms</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="main-content">
+      <aside class="control-panel">
+        <div class="panel-section">
+          <h2>阵列配置</h2>
+          <div class="form-group">
+            <label for="topology">阵列拓扑</label>
+            <select id="topology">
+              <option value="circular">圆形</option>
+              <option value="linear">线性</option>
+              <option value="spiral">螺旋</option>
+              <option value="planar">平面</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="num-channels">通道数: <span id="channels-value">16</span></label>
+            <input type="range" id="num-channels" min="8" max="64" step="8" value="16">
+          </div>
+          <div class="form-group">
+            <label for="spacing">阵元间距 (m): <span id="spacing-value">0.08</span></label>
+            <input type="range" id="spacing" min="0.02" max="0.2" step="0.01" value="0.08">
+          </div>
+          <div class="form-group">
+            <label for="fft-size">FFT点数</label>
+            <select id="fft-size">
+              <option value="256">256</option>
+              <option value="512">512</option>
+              <option value="1024" selected>1024</option>
+              <option value="2048">2048</option>
+              <option value="4096">4096</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="sample-rate">采样率 (Hz)</label>
+            <select id="sample-rate">
+              <option value="16000">16000</option>
+              <option value="44100">44100</option>
+              <option value="48000" selected>48000</option>
+              <option value="96000">96000</option>
+            </select>
+          </div>
+          <button id="apply-array-config" class="btn btn-primary">应用配置</button>
+        </div>
+
+        <div class="panel-section">
+          <h2>定位算法</h2>
+          <div class="form-group">
+            <label for="algorithm">算法选择</label>
+            <select id="algorithm">
+              <option value="das">DAS (延迟求和)</option>
+              <option value="mvdr">MVDR (最小方差)</option>
+              <option value="music">MUSIC (子空间)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="scan-resolution">扫描分辨率 (°): <span id="resolution-value">3</span></label>
+            <input type="range" id="scan-resolution" min="1" max="10" step="1" value="3">
+          </div>
+          <div class="form-group">
+            <label for="num-sources">声源数量: <span id="sources-value">1</span></label>
+            <input type="range" id="num-sources" min="1" max="5" step="1" value="1">
+          </div>
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="include-elevation"> 包含仰角扫描
+            </label>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <h2>声源模拟</h2>
+          <div class="form-group">
+            <label for="source-type">信号类型</label>
+            <select id="source-type">
+              <option value="white_noise">白噪声</option>
+              <option value="pink_noise">粉红噪声</option>
+              <option value="sine">正弦波</option>
+              <option value="sweep">扫频信号</option>
+              <option value="voice">语音模拟</option>
+              <option value="pulse">脉冲信号</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="source-frequency">频率 (Hz): <span id="freq-value">2000</span></label>
+            <input type="range" id="source-frequency" min="100" max="8000" step="100" value="2000">
+          </div>
+          <div class="form-group">
+            <label for="source-azimuth">方位角 (°): <span id="azimuth-value">45</span></label>
+            <input type="range" id="source-azimuth" min="0" max="359" step="1" value="45">
+          </div>
+          <div class="form-group">
+            <label for="source-elevation">仰角 (°): <span id="elevation-value">0</span></label>
+            <input type="range" id="source-elevation" min="-90" max="90" step="1" value="0">
+          </div>
+          <div class="form-group">
+            <label for="source-distance">距离 (m): <span id="distance-value">3</span></label>
+            <input type="range" id="source-distance" min="0.5" max="10" step="0.1" value="3">
+          </div>
+          <div class="form-group">
+            <label for="noise-level">噪声水平: <span id="noise-value">0.02</span></label>
+            <input type="range" id="noise-level" min="0" max="0.1" step="0.005" value="0.02">
+          </div>
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="enable-reflections"> 启用反射
+            </label>
+          </div>
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="enable-reverb"> 启用混响
+            </label>
+          </div>
+          <button id="generate-signal" class="btn btn-success">生成模拟信号</button>
+          <button id="load-wav" class="btn btn-secondary">加载WAV文件</button>
+        </div>
+
+        <div class="panel-section">
+          <h2>显示控制</h2>
+          <div class="form-group">
+            <label for="view-mode">显示模式</label>
+            <select id="view-mode">
+              <option value="3d">3D 视图</option>
+              <option value="polar">极坐标热力图</option>
+              <option value="both">同时显示</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="show-sources" checked> 显示声源标记
+            </label>
+          </div>
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="show-heatmap" checked> 显示热力图
+            </label>
+          </div>
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="show-spectrum" checked> 显示频谱
+            </label>
+          </div>
+          <button id="start-processing" class="btn btn-primary">开始实时处理</button>
+          <button id="stop-processing" class="btn btn-danger" disabled>停止处理</button>
+          <button id="save-results" class="btn btn-secondary">导出结果</button>
+        </div>
+      </aside>
+
+      <main class="visualization-area">
+        <div class="view-container">
+          <div class="view-3d" id="view-3d">
+            <div class="view-header">
+              <span class="view-title">3D 空间视图</span>
+              <span class="view-badge" id="array-info-badge">16通道 圆形阵列</span>
+            </div>
+            <div class="view-content" id="canvas-3d-container"></div>
+          </div>
+          
+          <div class="view-polar" id="view-polar">
+            <div class="view-header">
+              <span class="view-title">极坐标热力图</span>
+              <span class="view-badge">方位角分布</span>
+            </div>
+            <div class="view-content" id="canvas-polar-container"></div>
+          </div>
+        </div>
+
+        <div class="bottom-panel">
+          <div class="spectrum-section">
+            <div class="view-header">
+              <span class="view-title">通道频谱</span>
+              <span class="view-badge" id="sample-rate-badge">48000 Hz</span>
+            </div>
+            <div class="view-content" id="canvas-spectrum-container"></div>
+          </div>
+          
+          <div class="results-section">
+            <div class="view-header">
+              <span class="view-title">定位结果</span>
+            </div>
+            <div class="results-content">
+              <div class="results-grid" id="results-grid">
+                <div class="result-placeholder">
+                  <p>开始处理后将显示定位结果</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="performance-section">
+            <div class="view-header">
+              <span class="view-title">性能指标</span>
+            </div>
+            <div class="performance-content">
+              <div class="perf-item">
+                <span class="perf-label">FFT 时间</span>
+                <div class="perf-bar-container">
+                  <div class="perf-bar" id="fft-bar" style="width: 0%"></div>
+                </div>
+                <span class="perf-value" id="fft-time">0 ms</span>
+              </div>
+              <div class="perf-item">
+                <span class="perf-label">波束形成</span>
+                <div class="perf-bar-container">
+                  <div class="perf-bar" id="beamforming-bar" style="width: 0%"></div>
+                </div>
+                <span class="perf-value" id="beamforming-time">0 ms</span>
+              </div>
+              <div class="perf-item">
+                <span class="perf-label">后处理</span>
+                <div class="perf-bar-container">
+                  <div class="perf-bar" id="post-bar" style="width: 0%"></div>
+                </div>
+                <span class="perf-value" id="post-time">0 ms</span>
+              </div>
+              <div class="perf-item total">
+                <span class="perf-label">总计</span>
+                <div class="perf-bar-container">
+                  <div class="perf-bar" id="total-bar" style="width: 0%"></div>
+                </div>
+                <span class="perf-value" id="total-time">0 ms</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
